@@ -5,9 +5,11 @@ const GRAVEDAD = 800;
 function preload() {
   game.load.spritesheet('player','assets/characters/character.png',33,44,7);
   game.load.image('tile','assets/tiles/tile2.png');
+  game.load.image('backgrund','assets/fondo.png');
 }
 
 function create() {
+  game.add.sprite(0,0,'backgrund').scale.setTo(2,2);
   // main character
   player = game.add.sprite(32,game.world.height - 250, 'player');
   player.animations.add('left', [0, 1, 2, 3], 10, true);
@@ -22,7 +24,6 @@ function create() {
   // ground
   createGround();
 
-
   //  Player physics properties. Give the little guy a slight bounce.
   player.body.gravity.y = GRAVEDAD;
   player.body.collideWorldBounds = true;
@@ -31,35 +32,20 @@ function create() {
 function update() {
   //controls
   cursors = game.input.keyboard.createCursorKeys();
-
-  //  Reset the players velocity (movement)
   player.body.velocity.x = 0;
 
-  if (cursors.left.isDown)
-  {
-      //  Move to the left
+  if (cursors.left.isDown){
       player.body.velocity.x = -150;
-
       player.animations.play('left');
-    }
-    else if (cursors.right.isDown)
-    {
-      //  Move to the right
+    } else if (cursors.right.isDown){
       player.body.velocity.x = 150;
-
       player.animations.play('right');
-    }
-    else
-    {
-      //  Stand still
+    } else {
       player.animations.stop();
-
       player.frame = 3;
     }
-
   //  Allow the player to jump if they are touching the ground.
-  if (cursors.up.isDown && player.body.touching.down && hitPlatform)
-  {
+  if (cursors.up.isDown && player.body.touching.down && hitPlatform) {
     player.body.velocity.y = -350;
   }
 }
