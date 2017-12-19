@@ -2,7 +2,7 @@ let game = new Phaser.Game(800, 600, Phaser.AUTO, '', { preload: preload, create
 let player;
 const GRAVEDAD = 800;
 
-let keyW, keyA, keyS, keyD; 
+let keyW, keyA, keyS, keyD;
 
 function preload() {
   game.load.spritesheet('player','assets/characters/character.png',33,44,7);
@@ -14,8 +14,8 @@ function create() {
   game.add.sprite(0,0,'backgrund').scale.setTo(2,2);
   // main character
   player = game.add.sprite(32,game.world.height - 250, 'player');
-  player.animations.add('left', [0, 1, 2, 3], 10, true);
-  player.animations.add('right', [5, 6, 7, 8], 10, true);
+  //player.animations.add('left', [0, 1, 2, 3], 10, true);
+  //player.animations.add('right', [5, 6, 7, 8], 10, true);
   player.scale.setTo(2,2);
   player.frame = 2;
 
@@ -35,6 +35,9 @@ function create() {
 }
 
 function update() {
+  //colision suelo
+  var hitGround = game.physics.arcade.collide(player, ground);
+
   //controls
   cursors = game.input.keyboard.createCursorKeys();
 
