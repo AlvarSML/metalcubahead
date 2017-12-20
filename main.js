@@ -7,7 +7,9 @@ let keyW, keyA, keyS, keyD;
 function preload() {
   game.load.spritesheet('player','assets/characters/character.png',33,44,7);
   game.load.image('tile','assets/tiles/tile2.png');
-  game.load.image('backgrund','assets/fondo.png');
+  game.load.image('backgrund','assets/fondo2.png');
+  game.load.image('bullet','assets/bullet.png');
+  game.world.setBounds(0,0,1700, 600);
 }
 
 function create() {
@@ -30,6 +32,13 @@ function create() {
   player.body.gravity.y = GRAVEDAD;
   player.body.collideWorldBounds = true;
 
+  //anclamos la camara al jugador
+  game.camera.follow(player);
+
+  //bullets
+  createBullet();
+
+  //controls
   setupControls();
 
 }
@@ -37,13 +46,14 @@ function create() {
 function update() {
   //colision suelo
   var hitGround = game.physics.arcade.collide(player, ground);
-
+  var hitGround2 = game.physics.arcade.collide(bullets, ground, bulletKillGround);
+  game.physics.arcade.collide(player, bullets, playerKill);
   //controls
   cursors = game.input.keyboard.createCursorKeys();
 
   controls();
-  //  Allow the player to jump if they are touching the ground.
+  /*  Allow the player to jump if they are touching the ground.
   if (cursors.up.isDown && player.body.touching.down && hitPlatform) {
     player.body.velocity.y = -350;
-  }
+  }*/
 }
