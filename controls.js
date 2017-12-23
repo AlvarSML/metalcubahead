@@ -5,45 +5,45 @@ var direccion = 0;
 
 //bullets
 function createBullet(){
-    bullets = game.add.group();
+  bullets = game.add.group();
 
-    bullets.enableBody = true;
+  bullets.enableBody = true;
 
-    bullets.physicsBodyType = Phaser.Physics.ARCADE;
+  bullets.physicsBodyType = Phaser.Physics.ARCADE;
 
-    bullets.createMultiple(1000, 'bullet');
-    bullets.callAll('events.onOutOfBounds.add', 'events.onOutOfBounds', resetBullet, this);
-    bullets.setAll('checkWorldBounds', true);
+  bullets.createMultiple(1000, 'bullet');
+  bullets.callAll('events.onOutOfBounds.add', 'events.onOutOfBounds', resetBullet, this);
+  bullets.setAll('checkWorldBounds', true);
 
 }
 
 function fireBullet () {
 
-    if (game.time.now > bulletRate)
+  if (game.time.now > bulletRate)
+  {
+    bullet = bullets.getFirstExists(false);
+    bullet.body.gravity.y = 800;
+    if (bullet)
     {
-        bullet = bullets.getFirstExists(false);
-        bullet.body.gravity.y = 800;
-        if (bullet)
-        {
-          if(direccion == 0 || direccion == 1){
-            bullet.reset(player.x + 50, player.y + 20);
-            bullet.body.velocity.x= 1000;
-            bulletRate = game.time.now + 100;
-          }else{
-            bullet.reset(player.x - 40, player.y + 20);
-            bullet.body.velocity.x= -1000;
-            bulletRate = game.time.now + 100;
-          }
+      if(direccion == 0 || direccion == 1){
+        bullet.reset(player.x + 50, player.y + 20);
+        bullet.body.velocity.x= 1000;
+        bulletRate = game.time.now + 100;
+      }else{
+        bullet.reset(player.x - 40, player.y + 20);
+        bullet.body.velocity.x= -1000;
+        bulletRate = game.time.now + 100;
+      }
 
-        }
     }
+  }
 
 }
 
 //  Called if the bullet goes out of the screen
 function resetBullet (bullet) {
 
-    bullet.kill();
+  bullet.kill();
 
 }
 
