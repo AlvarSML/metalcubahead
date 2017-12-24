@@ -1,6 +1,5 @@
 let game = new Phaser.Game(800, 600, Phaser.AUTO, '', { preload: preload, create: create, update: update },false,false);
 let player;
-let soldiers, soldier;
 
 const GRAVEDAD = 800;
 
@@ -8,7 +7,7 @@ let keyW, keyA, keyS, keyD;
 
 function preload() {
   game.load.spritesheet('player','assets/characters/character.png',33,44,7);
-  game.load.spritesheet('enemy','assets/characters/soldier.png',32,44,12);
+  game.load.spritesheet('enemy','assets/characters/soldier.png',32,44,7);
 
   game.load.image('tile','assets/tiles/tile2.png');
   game.load.image('backgrund','assets/fondo2.png');
@@ -16,6 +15,8 @@ function preload() {
 
   game.world.setBounds(0,0,1700, 600);
 }
+
+let soldiers;
 
 function create() {
   game.physics.startSystem(Phaser.Physics.ARCADE);
@@ -31,31 +32,22 @@ function create() {
   player.scale.setTo(2,2);
   player.frame = 2;
 
-  /* Enemigos */
-
-
-  /*
-    soldier = game.add.sprite(50,200,'enemy');
-    game.physics.arcade.enable(soldier);
-    soldier.body.gravity.y = GRAVEDAD;
-    soldier.physicsBodyType = Phaser.Physics.ARCADE;
-    soldier.body.collideWorldBounds = true;
-    soldier.scale.setTo(2,2);
-    */
-
   player.animations.add('left', [0, 1, 2], 10, true);
   player.animations.add('right', [4, 5, 6], 10, true);
 
-  soldiers = game.add.group(); 
-  soldiers.enableBody = true;
+  /* Enemigos */
+  /*
+  soldiers = game.add.group();
+  soldiers.frame = 0;
   soldiers.scale.setTo(2,2);
-  game.physics.enable(soldiers,Phaser.Physics.ARCADE);
+  */ 
 
-  let soldier = soldiers.create(0,0,'enemy');
-  soldier.frame = 0;
-  soldier.body.collideWorldBounds = true;
-  soldier.body.gravity.y = 50;
-  //spawEnemy(32,0,'enemy');
+  //let soldier = soldiers.create(0,0,'enemy');
+  configEnemy()
+  spawEnemy(0,0,'enemy');
+  spawEnemy(70,0,'enemy');
+
+  
 
   // ground
   createGround();
@@ -74,12 +66,11 @@ function create() {
 function update() {
   //colision suelo
   //**  Arreglar colisiones  **//
-  game.physics.arcade.collide(soldiers ,ground);
-  game.physics.arcade.collide(soldiers ,player);
+  
   game.physics.arcade.collide(player, ground);
   game.physics.arcade.collide(bullets, ground, bulletKillGround);
   game.physics.arcade.collide(player, bullets, playerKill);
-  
+  game.physics.arcade.collide(soldiers, ground);
   //controls
   cursors = game.input.keyboard.createCursorKeys();
 
