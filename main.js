@@ -10,18 +10,19 @@ function preload() {
   game.load.spritesheet('enemy','assets/characters/soldier.png',32,44,7);
 
   game.load.image('tile','assets/tiles/tile2.png');
-  game.load.image('backgrund','assets/fondo2.png');
+  game.load.image('backgrund','assets/fondo3.png');
   game.load.image('bullet','assets/bullet.png');  
 
-  game.world.setBounds(0,0,1700, 600);
+  game.world.setBounds(0,0,5000, 600);
 }
 
 let soldiers;
+let backgrund;
 
 function create() {
   game.physics.startSystem(Phaser.Physics.ARCADE);
 
-  game.add.sprite(0,0,'backgrund').scale.setTo(2,2);
+  background = game.add.sprite(0,0,'backgrund').scale.setTo(2,2);
 
   /* Protagonista */
   player = game.add.sprite(32,game.world.height - 250, 'player');
