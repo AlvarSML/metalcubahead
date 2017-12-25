@@ -1,5 +1,5 @@
 let game = new Phaser.Game(800, 600, Phaser.AUTO, '', { preload: preload, create: create, update: update },false,false);
-let player;
+let player, e;
 
 const GRAVEDAD = 800;
 
@@ -39,7 +39,8 @@ function create() {
   /* Enemigos */
   configEnemy()
   spawEnemy(0,0,'enemy');
-  spawEnemy(70,0,'enemy');  
+  spawEnemy(70,0,'enemy');
+  spawn2();
 
   // ground
   createGround();

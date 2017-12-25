@@ -2,9 +2,7 @@ function configEnemy() {
   soldiers = game.add.physicsGroup(Phaser.Physics.ARCADE);
   soldiers.physicsBodyType = Phaser.Physics.ARCADE;
   game.physics.arcade.enable(soldiers);
-  soldiers.update = f => {
-    console.log("hola");
-  }
+
 }
 
 function spawEnemy(x,y,sprite) {
@@ -13,4 +11,27 @@ function spawEnemy(x,y,sprite) {
   soldier.body.collideWorldBounds = true;
   soldier.scale.setTo(2,2);
   soldier.frame = 2;
+}
+
+/*test*/
+function spawn2() {
+  e = new Enemy();
+}
+
+class Enemy{
+  constructor(){
+    //Phaser.Sprite.call(90, 0, 'enemy');
+    this.p = game.add.sprite(0,50,'enemy');
+    this.p.physicsBodyType = Phaser.Physics.ARCADE;
+    game.physics.arcade.enable(this.p);
+    this.p.body.gravity.y
+    this.p.body.gravity.y = GRAVEDAD; 
+    this.p.body.collideWorldBounds = true;
+    this.p.scale.setTo(2,2);
+    this.p.frame = 2;
+  }
+
+  update() {
+    this.p.body.x += 1;
+  }
 }
