@@ -37,18 +37,9 @@ function create() {
   player.animations.add('right', [4, 5, 6], 10, true);
 
   /* Enemigos */
-  /*
-  soldiers = game.add.group();
-  soldiers.frame = 0;
-  soldiers.scale.setTo(2,2);
-  */ 
-
-  //let soldier = soldiers.create(0,0,'enemy');
   configEnemy()
   spawEnemy(0,0,'enemy');
-  spawEnemy(70,0,'enemy');
-
-  
+  spawEnemy(70,0,'enemy');  
 
   // ground
   createGround();
