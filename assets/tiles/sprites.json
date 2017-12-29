@@ -1,0 +1,16 @@
+[
+{"name":"woodr","x":1,"y":1,"width":25,"height":25},
+{"name":"wood","x":28,"y":1,"width":25,"height":24},
+{"name":"woodl","x":55,"y":1,"width":25,"height":25},
+{"name":"metal","x":173,"y":1,"width":25,"height":12},
+{"name":"metall","x":173,"y":16,"width":25,"height":12},
+{"name":"ground","x":1,"y":28,"width":25,"height":25},
+{"name":"ground-sand","x":28,"y":28,"width":25,"height":25},
+{"name":"sand","x":54,"y":28,"width":26,"height":25},
+{"name":"ground-rock","x":82,"y":28,"width":25,"height":25},
+{"name":"rock","x":109,"y":28,"width":25,"height":25},
+{"name":"metalr","x":173,"y":31,"width":25,"height":12},
+{"name":"grass","x":1,"y":57,"width":24,"height":12},
+{"name":"flower","x":54,"y":59,"width":8,"height":10},
+{"name":"plant","x":27,"y":60,"width":20,"height":9}
+]

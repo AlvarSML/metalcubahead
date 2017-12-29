@@ -19,12 +19,10 @@ function createBullet(){
 
 function fireBullet () {
 
-  if (game.time.now > bulletRate)
-  {
+  if (game.time.now > bulletRate){
     bullet = bullets.getFirstExists(false);
     bullet.body.gravity.y = 800;
-    if (bullet)
-    {
+    if (bullet) {
       if(direccion == 0 || direccion == 1){
         bullet.reset(player.x + 50, player.y + 20);
         bullet.body.velocity.x= 1000;
@@ -34,17 +32,13 @@ function fireBullet () {
         bullet.body.velocity.x= -1000;
         bulletRate = game.time.now + 100;
       }
-
     }
   }
-
 }
 
 //  Called if the bullet goes out of the screen
 function resetBullet (bullet) {
-
   bullet.kill();
-
 }
 
 function playerKill(player,bullet){
@@ -86,22 +80,17 @@ function controls() {
   aDown = keyA.isDown;
 
   if (keyA.isDown) {
-    moveX(-150,'left');
+    moveX(-200,'left');
     direccion = -1;
   } else if (keyD.isDown) {
-    moveX(150,'right');
+    moveX(200,'right');
     direccion = 1;
-  }
-  else {
-    //player.animations.stop();
-    //player.frame = 3;
+  } else {
     player.body.velocity.x = 0;
   }
 
   if (keyL.isDown) {
     salto();
-  } else if (keyS.isDown) {
-    moveY(150,'down');
   }
 
   if(!keyL.isDown && !keyS.isDown && !keyA.isDown && !keyD.isDown){
@@ -113,7 +102,6 @@ function controls() {
     fireBullet();
   }
 }
-
 
 //Salto
 function salto(){

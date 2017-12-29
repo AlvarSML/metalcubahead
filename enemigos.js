@@ -13,25 +13,41 @@ function spawEnemy(x,y,sprite) {
   soldier.frame = 2;
 }
 
-/*test*/
+/* test - funciona mas o menos */
 function spawn2() {
-  e = new Enemy();
+  var eneg = game.add.group();
+  var ene = new Enemy(game,0,0);
+  eneg.add(ene);
+  console.log(ene.health);
+  ///eneg.add(new Enemy(game,0,0));
+  ///eneg.add(new Enemy(game,0,0));
+  ///var ene = eneg.getFirstExists(false);
+
+  ene.stdReset(0,0);
 }
 
-class Enemy{
-  constructor(){
+class Enemy extends Phaser.Sprite {
+  constructor(game,x,y){
     //Phaser.Sprite.call(90, 0, 'enemy');
-    this.p = game.add.sprite(0,50,'enemy');
-    this.p.physicsBodyType = Phaser.Physics.ARCADE;
-    game.physics.arcade.enable(this.p);
-    this.p.body.gravity.y
-    this.p.body.gravity.y = GRAVEDAD; 
-    this.p.body.collideWorldBounds = true;
-    this.p.scale.setTo(2,2);
-    this.p.frame = 2;
+    super(game,x,y,'enemy');
+    this.exsists = false;
+    this.health = 5;
+    this.game.physics.enable(this);
+    this.body.gravity.y = GRAVEDAD; 
+    this.body.collideWorldBounds = true;
+    this.scale.setTo(2,2);
+    this.frame = 2;
   }
 
   update() {
-    this.p.body.x += 1;
+    this.body.x + 1;
+  }
+
+  stdReset(x, y) {
+    this.reset(x, y);
+  }
+
+  spawn() {
+
   }
 }
