@@ -11,9 +11,10 @@ function createBullet(){
 
   bullets.physicsBodyType = Phaser.Physics.ARCADE;
 
-  bullets.createMultiple(1000, 'bullet');
+  bullets.createMultiple(1000, 'bullets');
   bullets.callAll('events.onOutOfBounds.add', 'events.onOutOfBounds', resetBullet, this);
   bullets.setAll('checkWorldBounds', true);
+  //bullets.scale.setTo(2,2);
 
 }
 
@@ -21,12 +22,14 @@ function fireBullet () {
 
   if (game.time.now > bulletRate){
     bullet = bullets.getFirstExists(false);
-    bullet.body.gravity.y = 800;
+    //bullet.body.gravity.y = 800;
     if (bullet) {
       if(direccion == 0 || direccion == 1){
         bullet.reset(player.x + 50, player.y + 20);
         bullet.body.velocity.x= 1000;
         bulletRate = game.time.now + 100;
+        bullet.animations.add('shot',[0,1,2],5,true);
+        bullet.animations.play('shot');
       }else{
         bullet.reset(player.x - 40, player.y + 20);
         bullet.body.velocity.x= -1000;
