@@ -1,7 +1,21 @@
-var bullet;
-var bullets;
 var bulletRate = 0;
 var direccion = 0;
+
+function setUpBullets(){
+  bbullets = game.add.group();
+  bbullets.enableBody = true;
+  bbullets.add(new Bullet(game,0,0));
+  bbullets.callAll('events.onOutOfBounds.add', 'events.onOutOfBounds', resetBullet, this);
+  bbullets.setAll('checkWorldBounds', true);
+}
+
+function shootBullet(vx,vy){
+  let bullet = bbullets.getFirstExists(false);
+  if (bullet) {
+    bullet.reset(this.x + 50, this.y + 20);
+    bulletRate = game.time.now + 10;
+  }
+}
 
 //bullets
 function createBullet(){
@@ -14,22 +28,25 @@ function createBullet(){
   bullets.createMultiple(1000, 'bullets');
   bullets.callAll('events.onOutOfBounds.add', 'events.onOutOfBounds', resetBullet, this);
   bullets.setAll('checkWorldBounds', true);
-  //bullets.scale.setTo(2,2);
+
 
 }
 
 function fireBullet () {
 
+
   if (game.time.now > bulletRate){
     bullet = bullets.getFirstExists(false);
     //bullet.body.gravity.y = 800;
     if (bullet) {
+      bullet.animations.add('shot',[0,1,2],5,true);
       if(direccion == 0 || direccion == 1){
         bullet.reset(player.x + 50, player.y + 20);
         bullet.body.velocity.x= 1000;
         bulletRate = game.time.now + 100;
-        bullet.animations.add('shot',[0,1,2],5,true);
+        //bullet.animations.add('shot',[0,1,2],5,true);
         bullet.animations.play('shot');
+        bullet.scale.setTo(2,2);
       }else{
         bullet.reset(player.x - 40, player.y + 20);
         bullet.body.velocity.x= -1000;
@@ -102,7 +119,8 @@ function controls() {
   }
 
   if(keySpace.isDown){
-    fireBullet();
+    //fireBullet();
+    shootBullet(0,0);
   }
 }
 

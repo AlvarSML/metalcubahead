@@ -8,7 +8,7 @@ let keyW, keyA, keyS, keyD;
 function preload() {
   game.load.spritesheet('player','assets/characters/character.png',33,44,7);
   game.load.spritesheet('enemy','assets/characters/soldier.png',32,44,12);
-  game.load.spritesheet('bullets','assets/bullets.png',8,5,6);
+  game.load.spritesheet('bullets','assets/bullets.png',9,5,6);
   game.load.atlas('texturas','assets/tiles/spritesheet.png', 'assets/tiles/sprites2.json', Phaser.Loader.TEXTURE_ATLAS_JSON_HASH);
 
   game.load.image('backgrund','assets/fondo3.png');
@@ -20,6 +20,7 @@ function preload() {
 let soldiers;
 let backgrund;
 let enemies;
+let bullet, bullets, bbullets;
 
 function create() {
   game.physics.startSystem(Phaser.Physics.ARCADE);
@@ -54,6 +55,9 @@ function create() {
   //controls
   setupControls();
 
+  setUpBullets();
+
+
 }
 
 function update() {
@@ -64,6 +68,7 @@ function update() {
   game.physics.arcade.collide(bullets, ground, bulletKillGround);
   game.physics.arcade.collide(player, bullets, playerKill);
   game.physics.arcade.collide(enemies, ground);
+  //game.physics.arcade.collide(Bullet, ground);
   //controls
   cursors = game.input.keyboard.createCursorKeys();
 
