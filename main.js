@@ -10,7 +10,7 @@ function preload() {
   game.load.spritesheet('enemy','assets/characters/soldier.png',32,44,12);
   game.load.spritesheet('bullets','assets/bullets.png',9,5,6);
   game.load.atlas('texturas','assets/tiles/spritesheet.png', 'assets/tiles/sprites2.json', Phaser.Loader.TEXTURE_ATLAS_JSON_HASH);
-
+  game.load.atlas('camilo','assets/characters/camilo.png','assets/characters/camilo.json', Phaser.Loader.TEXTURE_ATLAS_JSON_HASH);
   game.load.image('backgrund','assets/fondo3.png');
   game.load.image('bullet','assets/bullet.png');
 
@@ -30,7 +30,7 @@ function create() {
   background = game.add.sprite(0,0,'backgrund').scale.setTo(2,2);
 
   /* Protagonista */
-  player = game.add.sprite(32,game.world.height - 250, 'player');
+  player = game.add.sprite(32,game.world.height - 250, 'camilo');
   player.physicsBodyType = Phaser.Physics.ARCADE;
   game.physics.arcade.enable(player);
   player.body.gravity.y = GRAVEDAD;
@@ -39,7 +39,7 @@ function create() {
   player.frame = 2;
 
   player.animations.add('left', [0, 1, 2], 10, true);
-  player.animations.add('right', [4, 5, 6], 10, true);
+  player.animations.add('right', [0, 1, 2], 10, true);
 
   /* Enemigos */
   enemies = game.add.group();

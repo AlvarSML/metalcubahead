@@ -11,10 +11,11 @@ class Enemy extends Phaser.Sprite {
     this.frame = 2;
     this.direction = -1;
     this.bulletRate = 0;
+    this.anchor.setTo(.5,.5);
     /*balas*/
     this.eBullets = game.add.group();
     this.eBullets.enableBody = true;
-    this.eBullets.createMultiple(10, 'bullet');
+    this.eBullets.createMultiple(10, 'bullets');
     this.eBullets.callAll('events.onOutOfBounds.add', 'events.onOutOfBounds', resetBullet, this);
     this.eBullets.setAll('checkWorldBounds', true);
     /*animaciones*/
@@ -31,11 +32,15 @@ class Enemy extends Phaser.Sprite {
       this.animations.play('left');
     }
 
-    // si el jugador esta a la izquierda
+    
     if ((this.x - player.x) > 0 && (this.x - player.x) < 400) {
+      // si el jugador esta a la izquierda
       // dispara a la izquierda
       this.shoot();
       this.animations.play('shootl');
+    } else if ((this.x - player.x) < 0) {
+      // si el jugador esta detras
+      this.scale.x = -2;
     } else {
       this.body.velocity.x = 0;
       this.animations.stop();
@@ -49,8 +54,10 @@ class Enemy extends Phaser.Sprite {
   shoot(){
     let bullet = this.eBullets.getFirstExists(false);
     if (bullet && this.bulletRate < game.time.now) {
-      bullet.reset(this.x + 15, this.y + 55);
-      bullet.body.velocity.x = 1000 * this.direction;
+      bullet.frame = 0;
+      bullet.scale.setTo(2,2);
+      bullet.reset(this.x - 10 , this.y + 15);
+      bullet.body.velocity.x = 300 * this.direction;
       
       if (this.direction = -1) {
         bullet.anchor.setTo(.5,.5);
