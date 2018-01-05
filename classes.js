@@ -9,6 +9,8 @@ class Enemy extends Phaser.Sprite {
     this.body.collideWorldBounds = true;
     this.scale.setTo(2,2);
     this.frame = 2;
+    this.direction = -1;
+    this.bulletRate = 0;
     /*balas*/
     this.eBullets = game.add.group();
     this.eBullets.enableBody = true;
@@ -18,7 +20,7 @@ class Enemy extends Phaser.Sprite {
     /*animaciones*/
     this.animations.add('rigth',[9,10,11],5,true);
     this.animations.add('left',[6,7,8],5,true);
-    this.animations.add('shootl',[1,0,1],7,true);
+    this.animations.add('shootl',[0,1,2],7,true);
     this.animations.add('shootr',[3,4,5],5,true);
   }
 
@@ -29,9 +31,9 @@ class Enemy extends Phaser.Sprite {
       this.animations.play('left');
     }
 
-    if (Math.abs(this.x - player.x) < 200) {
-      this.body.velocity.x = 0.5 * (this.x - player.x / this.x - player.x) * -1;
-      console.log(Math.floor(this.x - player.x / this.x - player.x));
+    // si el jugador esta a la izquierda
+    if ((this.x - player.x) > 0 && (this.x - player.x) < 400) {
+      // dispara a la izquierda
       this.shoot();
       this.animations.play('shootl');
     } else {
@@ -46,14 +48,25 @@ class Enemy extends Phaser.Sprite {
 
   shoot(){
     let bullet = this.eBullets.getFirstExists(false);
-    if (bullet) {
-      bullet.reset(this.x -45, this.y + 30);
-      bullet.body.velocity.x = 10 * (this.x - player.x / this.x - player.x) * -1;
-      bulletRate = game.time.now + 10;
+    if (bullet && this.bulletRate < game.time.now) {
+      bullet.reset(this.x + 15, this.y + 55);
+      bullet.body.velocity.x = 1000 * this.direction;
+      
+      if (this.direction = -1) {
+        bullet.anchor.setTo(.5,.5);
+        bullet.angle = -180;
+      }
+
+
+      this.bulletRate = game.time.now + 400;
     }
   }
-}
 
+  damage(hp) {
+    this.health -= hp;
+  }
+}
+/** Test **/
 class Bullet extends Phaser.Sprite {
   constructor(game,x,y,vX,vY) {
     super(game,x,y,'bullets');
@@ -66,3 +79,5 @@ class Bullet extends Phaser.Sprite {
   }
   // methods
 }
+
+/****/

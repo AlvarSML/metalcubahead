@@ -21,6 +21,8 @@ let soldiers;
 let backgrund;
 let enemies;
 let bullet, bullets, bbullets;
+var bulletRate = 0;
+var direccion = 0;
 
 function create() {
   game.physics.startSystem(Phaser.Physics.ARCADE);
@@ -41,7 +43,7 @@ function create() {
 
   /* Enemigos */
   enemies = game.add.group();
-  spawnEnemy(0,0);
+  spawnEnemy(400,0);
 
   // ground
   createGround();
@@ -56,6 +58,7 @@ function create() {
   setupControls();
 
   setUpBullets();
+  console.log((this.x - player.x));
 
 
 }
@@ -73,6 +76,8 @@ function update() {
   cursors = game.input.keyboard.createCursorKeys();
 
   controls();
+
+
 }
 
 function render() {

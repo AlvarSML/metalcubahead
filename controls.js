@@ -1,21 +1,37 @@
-var bulletRate = 0;
-var direccion = 0;
 
+/** test **/
 function setUpBullets(){
   bbullets = game.add.group();
   bbullets.enableBody = true;
-  bbullets.add(new Bullet(game,0,0));
+  bbullets.createMultiple(10,'bullets');
   bbullets.callAll('events.onOutOfBounds.add', 'events.onOutOfBounds', resetBullet, this);
   bbullets.setAll('checkWorldBounds', true);
 }
 
-function shootBullet(vx,vy){
+function shootBullet(x,y,dx,dy){
   let bullet = bbullets.getFirstExists(false);
-  if (bullet) {
-    bullet.reset(this.x + 50, this.y + 20);
-    bulletRate = game.time.now + 10;
+  if( game.time.now > bulletRate ){
+    if (bullet) {
+    //bullet = new Bullet(game,x,y,(dx * 1000),dy);
+    bullet.frame = 0;
+    bullet.scale.setTo(2,2);
+    if (direccion == -1){
+      bullet.anchor.setTo(.5,.5);
+      bullet.angle = -180;
+    }; 
+
+    bullet.reset(player.x + 50, player.y + 20);
+
+    bullet.body.velocity.x = 1000 * direccion;
+    bullet.body.velocity.y = (player.body.velocity.y) * .5;
+    
+    bulletRate = game.time.now + 300;
+    //bullet rate
+    }
   }
 }
+
+/***/
 
 //bullets
 function createBullet(){
@@ -31,10 +47,9 @@ function createBullet(){
 
 
 }
-
+/*
+/** deprecated
 function fireBullet () {
-
-
   if (game.time.now > bulletRate){
     bullet = bullets.getFirstExists(false);
     //bullet.body.gravity.y = 800;
@@ -55,6 +70,8 @@ function fireBullet () {
     }
   }
 }
+*/
+
 
 //  Called if the bullet goes out of the screen
 function resetBullet (bullet) {
@@ -120,7 +137,7 @@ function controls() {
 
   if(keySpace.isDown){
     //fireBullet();
-    shootBullet(0,0);
+    shootBullet(player.x,player.y);
   }
 }
 
