@@ -17,12 +17,10 @@ function preload() {
   game.world.setBounds(0,0,5000, 600);
 }
 
-let soldiers;
-let backgrund;
-let enemies;
+let soldiers,backgrund, enemies;
 let bullet, bullets, bbullets;
-var bulletRate = 0;
-var direccion = 0;
+let bulletRate = 0;
+let direccion = 1;
 
 function create() {
   game.physics.startSystem(Phaser.Physics.ARCADE);
@@ -30,20 +28,11 @@ function create() {
   background = game.add.sprite(0,0,'backgrund').scale.setTo(2,2);
 
   /* Protagonista */
-  player = game.add.sprite(32,game.world.height - 250, 'camilo');
-  player.physicsBodyType = Phaser.Physics.ARCADE;
-  game.physics.arcade.enable(player);
-  player.body.gravity.y = GRAVEDAD;
-  player.body.collideWorldBounds = true;
-  player.scale.setTo(2,2);
-  player.frame = 2;
-
-  player.animations.add('left', [0, 1, 2], 10, true);
-  player.animations.add('right', [0, 1, 2], 10, true);
+  player = new Player(game,200,200,10);
 
   /* Enemigos */
   enemies = game.add.group();
-  spawnEnemy(400,0);
+  spawnEnemy(600,0);
 
   // ground
   createGround();
@@ -51,14 +40,10 @@ function create() {
   //anclamos la camara al jugador
   game.camera.follow(player);
 
-  //bullets
-  createBullet();
-
   //controls
-  setupControls();
+  //setupControls();
 
   setUpBullets();
-  console.log((this.x - player.x));
 
 
 }
@@ -67,19 +52,12 @@ function update() {
   //colision suelo
   //**  Arreglar colisiones  **//
   
-  game.physics.arcade.collide(player, ground);
   game.physics.arcade.collide(bullets, ground, bulletKillGround);
   game.physics.arcade.collide(player, bullets, playerKill);
   game.physics.arcade.collide(enemies, ground);
+  game.physics.arcade.collide(player, ground);
   //game.physics.arcade.collide(Bullet, ground);
   //controls
   cursors = game.input.keyboard.createCursorKeys();
 
-  controls();
-
-
-}
-
-function render() {
-  game.debug.body(player);
 }

@@ -10,6 +10,7 @@ function createGround() {
   }
 
   /* Maderas */
+  /*
   gTile = ground.create(380,400,'texturas','woodl');
   gTile.scale.setTo(2,2);
   gTile.body.immovable = true;
@@ -21,5 +22,6 @@ function createGround() {
   gTile = ground.create(480,400,'texturas','woodr');
   gTile.scale.setTo(2,2);
   gTile.body.immovable = true;
+  */
 
 }
