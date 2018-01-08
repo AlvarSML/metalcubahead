@@ -49,3 +49,14 @@ function playerKill(player,bullet){
 function bulletKillGround(bullet,ground){
   bullet.kill();
 }
+
+function enemyKill(bullet,ene){
+  bullet.kill();
+  ene.health -= 1;
+  bullet.kill();
+  if (ene.health <= 0) {
+    ene.kill();
+    ene.alive = false;
+  }
+  console.log(ene.health);
+}

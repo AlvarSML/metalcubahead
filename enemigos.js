@@ -2,7 +2,7 @@ function poolEnemies(){
   //WIP
 }
 
-function spawnEnemy(x,y) {
-  enemies.add(new Enemy(game,x,y));
-  ene = enemies.getFirstExists(true);
+function spawnEnemy(x,y,hp) {
+  enemies.add(new Enemy(game,x,y,hp));
+  enemy = enemies.getFirstExists(true);
 }

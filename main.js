@@ -17,7 +17,7 @@ function preload() {
   game.world.setBounds(0,0,3000, 600);
 }
 
-let backgrund, enemies, test;
+let backgrund, enemies, test, enemy, bullets;
 let bulletRate = 0;
 let direccion = 1;
 
@@ -32,18 +32,11 @@ function create() {
 
   /* Enemigos */
   enemies = game.add.group();
-  spawnEnemy(600,0);
+  spawnEnemy(600,0,3);
 
+  bullets = game.add.group();
   // ground
   createGround();
-
-  //anclamos la camara al jugador
-  
-
-  //controls
-  //setupControls();
-  setUpBullets();
-
 
 }
 
@@ -55,11 +48,7 @@ function update() {
   //game.physics.arcade.collide(player, bullets, playerKill);
   game.physics.arcade.collide(enemies, ground);
   game.physics.arcade.collide(playerp, ground);
-  //game.physics.arcade.collide(Bullet, ground);
-  //controls
-  //cursors = game.input.keyboard.createCursorKeys();
-
-  //console.log(player.x);
+  game.physics.arcade.collide(bullets, enemies, enemyKill);
 
 }
 
