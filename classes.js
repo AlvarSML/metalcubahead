@@ -10,7 +10,7 @@ class Entity extends Phaser.Sprite {
     this.body.collideWorldBounds = true;
     this.scale.setTo(2,2);
     //this.frame = 2;
-    this.direction = -1;
+    this.direction;
     this.bulletRate = 0;
     this.anchor.setTo(.5,.5);
     /*balas*/
@@ -72,12 +72,12 @@ class Enemy extends Entity {
     }
 
     
-    if ((this.x - player.x) > 0 && (this.x - player.x) < 400) {
+    if ((this.x - playerp.x) > 0 && (this.x - playerp.x) < 400) {
       // si el jugador esta a la izquierda
       // dispara a la izquierda
       this.shoot();
       this.animations.play('shootl');
-    } else if ((this.x - player.x) < 0) {
+    } else if ((this.x - playerp.x) < 0) {
       // si el jugador esta detras
       this.scale.x = -2;
     } else {
@@ -113,11 +113,11 @@ class Enemy extends Entity {
   }
 }
 
-class Player extends Entity {
+class MainPlayer extends Entity {
   constructor(game,x,y,hp) {
     super(game,x,y,hp,'camilo');
     //this.addChild(game.add.sprite(0, 0, 'someSprite'));
-    game.stage.addChild(this);
+    game.add.existing(this);
     this.direction = 1;
     //controls
     this.keyL = game.input.keyboard.addKey(Phaser.Keyboard.L);
@@ -131,38 +131,47 @@ class Player extends Entity {
   }
 
   update() {
-    if (this.keyA.isDown) {
-      this.body.x -= 2;
-      this.animations.play('run');
-      this.scale.x = -2;
-      this.direccion = -1;
-    } else if (this.keyD.isDown) {
-      this.body.x += 2;
-      this.animations.play('run');
-      this.scale.x = 2;
-      this.direccion = 1;
-    } else 
+    let adown = this.keyA.isDown;
+    let ddown = this.keyD.isDown;
+    let sdown = this.keyS.isDown;
+
+
+    if (adown) {
+      this.body.velocity.x = -200;
+      //this.animations.play('run');
+      //this.scale.x = -2;
+      //this.direccion = -1;
+    } else if (ddown) {
+      this.body.velocity.x = 200;
+      //this.animations.play('run');
+      //this.scale.x = 2;
+      //this.direccion = 1;
+    } else {
+      this.body.velocity.x = 0;
+    }
 
     if (this.keyL.isDown) {
       this.shoot();
     }
 
+    /*
     if(!this.keyL.isDown && !this.keyS.isDown && !this.keyA.isDown && !this.keyD.isDown){
       this.animations.stop();
-      //this.body.velocity.x = 0;
+      this.body.velocity.x = 0;
       this.frame = 3;
     }
 
     if(this.keySpace.isDown && this.body.touching.down){
       this.jump();
     }
+    */
+
   }
 
   jump(){
     this.body.velocity.y = -500;
   }
 }
-
 
 /** Test **/
 class Bullet extends Phaser.Sprite {
