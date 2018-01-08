@@ -38,7 +38,7 @@ class Entity extends Phaser.Sprite {
       bullet.reset(this.x - 10 , this.y + 15);
       bullet.body.velocity.x = 300 * this.direction;
       
-      if (this.direction = -1) {
+      if (this.direction == -1) {
         bullet.anchor.setTo(.5,.5);
         bullet.angle = -180;
       }
@@ -116,7 +116,6 @@ class Enemy extends Entity {
 class MainPlayer extends Entity {
   constructor(game,x,y,hp) {
     super(game,x,y,hp,'camilo');
-    //this.addChild(game.add.sprite(0, 0, 'someSprite'));
     game.add.existing(this);
     this.direction = 1;
     //controls
@@ -137,15 +136,15 @@ class MainPlayer extends Entity {
 
 
     if (adown) {
+      this.direction = -1;
       this.body.velocity.x = -200;
-      //this.animations.play('run');
-      //this.scale.x = -2;
-      //this.direccion = -1;
+      this.animations.play('run');
+      this.scale.x = -2;      
     } else if (ddown) {
+      this.direction = 1;
       this.body.velocity.x = 200;
-      //this.animations.play('run');
-      //this.scale.x = 2;
-      //this.direccion = 1;
+      this.animations.play('run');
+      this.scale.x = 2;      
     } else {
       this.body.velocity.x = 0;
     }
@@ -154,7 +153,7 @@ class MainPlayer extends Entity {
       this.shoot();
     }
 
-    /*
+    
     if(!this.keyL.isDown && !this.keyS.isDown && !this.keyA.isDown && !this.keyD.isDown){
       this.animations.stop();
       this.body.velocity.x = 0;
@@ -164,7 +163,7 @@ class MainPlayer extends Entity {
     if(this.keySpace.isDown && this.body.touching.down){
       this.jump();
     }
-    */
+    
 
   }
 
