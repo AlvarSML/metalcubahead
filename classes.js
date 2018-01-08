@@ -37,9 +37,6 @@ class Entity extends Phaser.Sprite {
     }
   }
 
-  damage(hp) {
-    this.health -= hp;
-  }
 }
 
 class Enemy extends Entity {
@@ -47,6 +44,7 @@ class Enemy extends Entity {
     super(game,x,y,hp,'enemy');
     this.alive = true;
     this.frame = 2;
+    //this.body.immovable = true;
     /*animaciones*/
     this.animations.add('rigth',[9,10,11],5,true);
     this.animations.add('left',[6,7,8],5,true);
