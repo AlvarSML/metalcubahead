@@ -49,3 +49,8 @@ function playerKill(player,bullet){
 function bulletKillGround(bullet,ground){
   bullet.kill();
 }
+
+function enemyKill(){
+  enemy.kill();
+  enemy.alive = false;
+}
