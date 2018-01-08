@@ -10,16 +10,10 @@ class Entity extends Phaser.Sprite {
     this.body.collideWorldBounds = true;
     this.scale.setTo(2,2);
     //this.frame = 2;
-    this.direction;
+    this.direction = -1;
     this.bulletRate = 0;
     this.anchor.setTo(.5,.5);
-    /*balas*/
-    this.bullets = game.add.group();
-    this.bullets.enableBody = true;
-    this.bullets.createMultiple(100, 'bullets');
-    this.bullets.callAll('events.onOutOfBounds.add', 'events.onOutOfBounds', resetBullet, this);
-    this.bullets.setAll('checkWorldBounds', true);
-
+    /*balas*/    
   }
 
   update() {
@@ -31,32 +25,26 @@ class Entity extends Phaser.Sprite {
   }
 
   shoot(){
-    let bullet = this.bullets.getFirstExists(false);
-    if (bullet && this.bulletRate < game.time.now) {
-      bullet.frame = 0;
-      bullet.scale.setTo(2,2);
-      bullet.reset(this.x - 10 , this.y + 15);
-      bullet.body.velocity.x = 300 * this.direction;
+    if (this.bulletRate < game.time.now) {
+      let bullet = new Bullet(game,this.x -50,this.y,1000 * this.direction,0);
       
-      if (this.direction = -1) {
-        bullet.anchor.setTo(.5,.5);
-        bullet.angle = -180;
+      if (this.direction == -1) {
+        bullet.scale.x = -2;
       }
-
-
-      this.bulletRate = game.time.now + 400;
+      bullets.add(bullet);
+      console.log('PUM!');
+      this.bulletRate = game.time.now + 300;
     }
   }
 
-  damage(hp) {
-    this.health -= hp;
-  }
 }
 
 class Enemy extends Entity {
   constructor(game,x,y,hp){
     super(game,x,y,hp,'enemy');
+    this.alive = true;
     this.frame = 2;
+    //this.body.immovable = true;
     /*animaciones*/
     this.animations.add('rigth',[9,10,11],5,true);
     this.animations.add('left',[6,7,8],5,true);
@@ -72,14 +60,19 @@ class Enemy extends Entity {
     }
 
     
-    if ((this.x - playerp.x) > 0 && (this.x - playerp.x) < 400) {
+    if ((this.x - playerp.x) > 0 && (this.x - playerp.x) < 400 && this.alive) {
       // si el jugador esta a la izquierda
       // dispara a la izquierda
+      this.scale.x = 2;
+      this.direction = -1;
       this.shoot();
       this.animations.play('shootl');
-    } else if ((this.x - playerp.x) < 0) {
+    } else if ((this.x - playerp.x) < 0 && this.alive) {
       // si el jugador esta detras
+      this.direction = 1;
       this.scale.x = -2;
+      this.animations.stop();
+      //this.shoot();
     } else {
       this.body.velocity.x = 0;
       this.animations.stop();
@@ -90,24 +83,6 @@ class Enemy extends Entity {
     this.reset(x, y);
   }
 
-  shoot(){
-    let bullet = this.bullets.getFirstExists(false);
-    if (bullet && this.bulletRate < game.time.now) {
-      bullet.frame = 0;
-      bullet.scale.setTo(2,2);
-      bullet.reset(this.x - 10 , this.y + 15);
-      bullet.body.velocity.x = 300 * this.direction;
-      
-      if (this.direction = -1) {
-        bullet.anchor.setTo(.5,.5);
-        bullet.angle = -180;
-      }
-
-
-      this.bulletRate = game.time.now + 400;
-    }
-  }
-
   damage(hp) {
     this.health -= hp;
   }
@@ -116,7 +91,6 @@ class Enemy extends Entity {
 class MainPlayer extends Entity {
   constructor(game,x,y,hp) {
     super(game,x,y,hp,'camilo');
-    //this.addChild(game.add.sprite(0, 0, 'someSprite'));
     game.add.existing(this);
     this.direction = 1;
     //controls
@@ -137,24 +111,24 @@ class MainPlayer extends Entity {
 
 
     if (adown) {
+      this.direction = -1;
       this.body.velocity.x = -200;
-      //this.animations.play('run');
-      //this.scale.x = -2;
-      //this.direccion = -1;
+      this.animations.play('run');
+      this.scale.x = -2;      
     } else if (ddown) {
+      this.direction = 1;
       this.body.velocity.x = 200;
-      //this.animations.play('run');
-      //this.scale.x = 2;
-      //this.direccion = 1;
+      this.animations.play('run');
+      this.scale.x = 2;      
     } else {
       this.body.velocity.x = 0;
     }
 
     if (this.keyL.isDown) {
-      this.shoot();
+      this.shoot();      
     }
 
-    /*
+    
     if(!this.keyL.isDown && !this.keyS.isDown && !this.keyA.isDown && !this.keyD.isDown){
       this.animations.stop();
       this.body.velocity.x = 0;
@@ -164,7 +138,7 @@ class MainPlayer extends Entity {
     if(this.keySpace.isDown && this.body.touching.down){
       this.jump();
     }
-    */
+    
 
   }
 
@@ -177,12 +151,14 @@ class MainPlayer extends Entity {
 class Bullet extends Phaser.Sprite {
   constructor(game,x,y,vX,vY) {
     super(game,x,y,'bullets');
-    this.exsists = false;
+    game.add.existing(this);
     this.game.physics.enable(this);
-    this.body.collideWorldBounds = true;
+    this.body.collideWorldBounds = false;
     this.scale.setTo(2,2);
-    this.body.velocity.x  = 1;
+    this.body.velocity.x  = vX;
+    this.body.velocity.y = vY;
     this.frame = 0;
+    this.lifespan = 400;
   }
   // methods
 }
