@@ -28,7 +28,7 @@ function create() {
 
   /* Protagonista */
   playerp = new MainPlayer(game,200,200,10);
-  game.camera.follow(playerp,Phaser.Camera.FOLLOW_PLATFORMER);
+  //game.camera.follow(playerp,Phaser.Camera.FOLLOW_PLATFORMER);
 
   /* Enemigos */
   //enemies = game.add.group();
