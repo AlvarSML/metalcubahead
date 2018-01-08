@@ -11,7 +11,7 @@ function preload() {
   game.load.spritesheet('bullets','assets/bullets.png',9,5,6);
   game.load.atlas('texturas','assets/tiles/spritesheet.png', 'assets/tiles/sprites2.json', Phaser.Loader.TEXTURE_ATLAS_JSON_HASH);
   game.load.atlas('camilo','assets/characters/camilo.png','assets/characters/camilo.json', Phaser.Loader.TEXTURE_ATLAS_JSON_HASH);
-  game.load.image('backgrund','assets/fondo3.png');
+  game.load.image('background','assets/fondo3.png');
   game.load.image('bullet','assets/bullet.png');
 
   game.world.setBounds(0,0,3000, 600);
@@ -24,15 +24,15 @@ let direccion = 1;
 function create() {
   game.physics.startSystem(Phaser.Physics.ARCADE);
 
-  background = game.add.sprite(0,0,'backgrund').scale.setTo(2,2);
+  background = game.add.sprite(0,0,'background').scale.setTo(2,2);
 
   /* Protagonista */
   playerp = new MainPlayer(game,200,200,10);
-  //game.camera.follow(playerp,Phaser.Camera.FOLLOW_PLATFORMER);
+  game.camera.follow(playerp);
 
   /* Enemigos */
-  //enemies = game.add.group();
-  //spawnEnemy(600,0);
+  enemies = game.add.group();
+  spawnEnemy(600,0);
 
   // ground
   createGround();

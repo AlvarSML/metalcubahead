@@ -117,7 +117,7 @@ class MainPlayer extends Entity {
   constructor(game,x,y,hp) {
     super(game,x,y,hp,'camilo');
     //this.addChild(game.add.sprite(0, 0, 'someSprite'));
-    game.stage.addChild(this);
+    game.add.existing(this);
     this.direction = 1;
     //controls
     this.keyL = game.input.keyboard.addKey(Phaser.Keyboard.L);
