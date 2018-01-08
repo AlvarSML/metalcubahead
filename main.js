@@ -59,7 +59,7 @@ function update() {
   //controls
   //cursors = game.input.keyboard.createCursorKeys();
 
-  //console.log(player.x);
+  console.log(playerp.direction);
 
 }
 
