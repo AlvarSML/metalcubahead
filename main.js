@@ -43,7 +43,7 @@ function create() {
 function update() {
   //colision suelo
   //**  Arreglar colisiones  **//
-  
+
   //game.physics.arcade.collide(bullets, ground, bulletKillGround);
   //game.physics.arcade.collide(player, bullets, playerKill);
   game.physics.arcade.collide(enemies, ground);
@@ -55,4 +55,6 @@ function update() {
 function render() {
   //game.debug.cameraInfo(game.camera, 32, 32);
   game.debug.spriteInfo(playerp, 32, 32);
+  game.debug.body(playerp);
+  game.debug.body(ground);
 }

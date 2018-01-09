@@ -6,14 +6,14 @@ class Entity extends Phaser.Sprite {
     this.exsists = false;
     this.health = hp;
     this.game.physics.enable(this);
-    this.body.gravity.y = GRAVEDAD; 
+    this.body.gravity.y = GRAVEDAD;
     this.body.collideWorldBounds = true;
     this.scale.setTo(2,2);
     //this.frame = 2;
     this.direction = -1;
     this.bulletRate = 0;
     this.anchor.setTo(.5,.5);
-    /*balas*/    
+    /*balas*/
   }
 
   update() {
@@ -61,7 +61,7 @@ class Enemy extends Entity {
       this.animations.play('left');
     }
 
-    
+
     if ((this.x - playerp.x) > 0 && (this.x - playerp.x) < 400 && this.alive) {
       // si el jugador esta a la izquierda
       // dispara a la izquierda
@@ -103,7 +103,7 @@ class MainPlayer extends Entity {
     this.keySpace = game.input.keyboard.addKey(Phaser.Keyboard.SPACEBAR);
 
     //animations
-    this.animations.add('run', [0, 1, 2], 10, true);  
+    this.animations.add('run', [0, 1, 2], 10, true);
   }
 
   update() {
@@ -112,25 +112,36 @@ class MainPlayer extends Entity {
     let sdown = this.keyS.isDown;
 
 
-    if (adown) {
+    if (sdown) {
+      this.direction = 1;
+      this.body.velocity.x = 0;
+      this.animations.play('run');
+      this.scale.x = 2;
+      playerp.body.setSize(15, 22, 10, 20);
+    }else if (adown) {
       this.direction = -1;
       this.body.velocity.x = -200;
       this.animations.play('run');
-      this.scale.x = -2;      
+      this.scale.x = -2;
     } else if (ddown) {
       this.direction = 1;
       this.body.velocity.x = 200;
       this.animations.play('run');
-      this.scale.x = 2;      
-    } else {
+      this.scale.x = 2;
+    }
+    else {
       this.body.velocity.x = 0;
     }
 
-    if (this.keyL.isDown) {
-      this.shoot();      
+    if(!sdown){
+      playerp.body.setSize(15, 37, 10, 5);
     }
 
-    
+    if (this.keyL.isDown) {
+      this.shoot();
+    }
+
+
     if(!this.keyL.isDown && !this.keyS.isDown && !this.keyA.isDown && !this.keyD.isDown){
       this.animations.stop();
       this.body.velocity.x = 0;
@@ -140,7 +151,7 @@ class MainPlayer extends Entity {
     if(this.keySpace.isDown && this.body.touching.down){
       this.jump();
     }
-    
+
 
   }
 
