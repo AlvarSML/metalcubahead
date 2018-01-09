@@ -26,8 +26,10 @@ class Entity extends Phaser.Sprite {
 
   shoot(){
     if (this.bulletRate < game.time.now) {
-      let bullet = new Bullet(game,this.x -50,this.y,1000 * this.direction,0);
-      
+
+        let bullet = new Bullet(game,this.x - (50 * this.direction * -1),this.y + 10,1000 * this.direction,0);
+
+
       if (this.direction == -1) {
         bullet.scale.x = -2;
       }
