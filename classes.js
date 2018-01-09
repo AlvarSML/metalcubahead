@@ -62,19 +62,20 @@ class Enemy extends Entity {
     }
 
 
-    if ((this.x - playerp.x) > 0 && (this.x - playerp.x) < 400 && this.alive) {
+    if ((this.x - playerp.x) > 0 && (this.x - playerp.x) < 400 && (this.y - playerp.y)==0 && this.alive) {
       // si el jugador esta a la izquierda
+      // y en el mismo nivel
       // dispara a la izquierda
       this.scale.x = 2;
       this.direction = -1;
       this.shoot();
       this.animations.play('shootl');
-    } else if ((this.x - playerp.x) < 0 && this.alive) {
+    } else if ((this.x - playerp.x) < 0 && (playerp.x - this.x) < 400 && (this.y - playerp.y)==0 && this.alive) {
       // si el jugador esta detras
       this.direction = 1;
       this.scale.x = -2;
       this.animations.stop();
-      //this.shoot();
+      this.shoot();
     } else {
       this.body.velocity.x = 0;
       this.animations.stop();
