@@ -42,13 +42,17 @@ function resetBullet (bullet) {
 }
 
 function playerKill(player,bullet){
-  player.kill();
-  player.deleteEntity();
   bullet.kill();
-  game.vidas -= 1;
-  txtVidas.setText('Vidas: '+game.vidas);
-  playerp = new MainPlayer(game,200,200,10);
-  game.camera.follow(playerp);
+  player.health-=1;
+
+  if(player.health<0){
+    player.kill();
+    player.deleteEntity();
+    game.vidas -= 1;
+    playerp = new MainPlayer(game,200,200,10);
+    game.camera.follow(playerp);
+    txtVidas.setText('Vidas: '+game.vidas);
+  }
 
   if(game.vidas == 0){
      playerp.kill();
