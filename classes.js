@@ -33,7 +33,9 @@ class Entity extends Phaser.Sprite {
       if (this.direction == -1) {
         bullet.scale.x = -2;
       }
+
       bullets.add(bullet);
+
       console.log('PUM!');
       this.bulletRate = game.time.now + 300;
     }
@@ -54,6 +56,23 @@ class Enemy extends Entity {
     this.animations.add('shootr',[3,4,5],5,true);
   }
 
+  shoot(){
+    if (this.bulletRate < game.time.now) {
+
+        let bullet = new Bullet(game,this.x - (50 * this.direction * -1),this.y + 10,1000 * this.direction,0);
+
+
+      if (this.direction == -1) {
+        bullet.scale.x = -2;
+      }
+
+      bullets.add(bullet);
+
+      console.log('PUM!');
+      this.bulletRate = game.time.now + 100;
+    }
+  }
+
   update() {
     if (this.body.velocity.x > 0) {
       this.animations.play('rigth');
@@ -62,20 +81,22 @@ class Enemy extends Entity {
     }
 
 
-    if ((this.x - playerp.x) > 0 && (this.x - playerp.x) < 400 && (this.y - playerp.y)==0 && this.alive) {
+    if ((this.x - playerp.x) > 0 && (this.x - playerp.x) < 400 && ((this.y - playerp.y)>-100 && ((this.y - playerp.y)<100)) && this.alive) {
       // si el jugador esta a la izquierda
       // y en el mismo nivel
       // dispara a la izquierda
       this.scale.x = 2;
       this.direction = -1;
-      this.shoot();
+      setTimeout(shoot,2000);
+      //this.shoot();
       this.animations.play('shootl');
-    } else if ((this.x - playerp.x) < 0 && (playerp.x - this.x) < 400 && (this.y - playerp.y)==0 && this.alive) {
+    } else if ((this.x - playerp.x) < 0 && (playerp.x - this.x) < 400 && ((this.y - playerp.y)>-100 && ((this.y - playerp.y)<100)) && this.alive) {
       // si el jugador esta detras
       this.direction = 1;
       this.scale.x = -2;
       this.animations.stop();
-      this.shoot();
+      setTimeout(shoot,2000);
+      //this.shoot();
     } else {
       this.body.velocity.x = 0;
       this.animations.stop();
@@ -125,7 +146,7 @@ class MainPlayer extends Entity {
       this.body.velocity.x = 0;
       this.animations.play('squash');
       this.scale.x = 2;
-      playerp.body.setSize(15, 22, 10, 20);
+      playerp.body.setSize(35, 10, 5, 32);
     }else if (adown) {
       this.direction = -1;
       this.body.velocity.x = -200;
