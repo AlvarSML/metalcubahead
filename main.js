@@ -39,6 +39,9 @@ function create() {
   enemies = game.add.group();
   spawnEnemy(600,0,3);
 
+  /*Boss*/
+  enemies.add(new EnemyBoss(game,2400,400,20));
+
   bullets = game.add.group();
   // ground
   createGround();
