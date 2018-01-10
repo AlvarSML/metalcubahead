@@ -87,16 +87,14 @@ class Enemy extends Entity {
       // dispara a la izquierda
       this.scale.x = 2;
       this.direction = -1;
-      setTimeout(shoot,2000);
-      //this.shoot();
+      this.shoot();
       this.animations.play('shootl');
     } else if ((this.x - playerp.x) < 0 && (playerp.x - this.x) < 400 && ((this.y - playerp.y)>-100 && ((this.y - playerp.y)<100)) && this.alive) {
       // si el jugador esta detras
       this.direction = 1;
       this.scale.x = -2;
       this.animations.stop();
-      setTimeout(shoot,2000);
-      //this.shoot();
+      this.shoot();
     } else {
       this.body.velocity.x = 0;
       this.animations.stop();
@@ -144,9 +142,9 @@ class MainPlayer extends Entity {
     if (sdown) {
       this.direction = 1;
       this.body.velocity.x = 0;
-      this.animations.play('squash');
+      this.frame = 5;
       this.scale.x = 2;
-      playerp.body.setSize(35, 10, 5, 32);
+      playerp.body.setSize(37, 10, 5, 25);
     }else if (adown) {
       this.direction = -1;
       this.body.velocity.x = -200;
@@ -167,7 +165,7 @@ class MainPlayer extends Entity {
     }
 
     if(!sdown){
-      playerp.body.setSize(15, 37, 10, 5);
+      playerp.body.setSize(15, 37, 10, 4);
     }
 
     if (ldown) {
@@ -191,8 +189,10 @@ class MainPlayer extends Entity {
     this.shoot();
     if (this.body.velocity.x != 0) {
       this.animations.play('shootrun');
+    } else if(this.keyS.isDown){
+      this.frame = 6;
     } else {
-      this.frame = 'shoot';
+      this.frame = 3;
     }
   }
 
