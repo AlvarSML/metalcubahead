@@ -16,6 +16,11 @@ class Entity extends Phaser.Sprite {
     /*balas*/
   }
 
+  deleteEntity(){
+    //mas o menos borra el bulletRate para que no se ejecute la función shoot
+    console.log(delete this.bulletRate);
+  }
+
   update() {
 
   }
@@ -48,6 +53,7 @@ class Enemy extends Entity {
     super(game,x,y,hp,'enemy');
     this.alive = true;
     this.frame = 2;
+    this.contPasosEnemigo = 0;
     //this.body.immovable = true;
     /*animaciones*/
     this.animations.add('rigth',[9,10,11],5,true);
@@ -59,7 +65,7 @@ class Enemy extends Entity {
   shoot(){
     if (this.bulletRate < game.time.now) {
 
-        let bullet = new Bullet(game,this.x - (50 * this.direction * -1),this.y + 10,1000 * this.direction,0);
+        let bullet = new Bullet(game,this.x - (50 * this.direction * -1),this.y + 10,500 * this.direction,0);
 
 
       if (this.direction == -1) {
@@ -69,34 +75,31 @@ class Enemy extends Entity {
       bullets.add(bullet);
 
       console.log('PUM!');
-      this.bulletRate = game.time.now + 100;
+      this.bulletRate = game.time.now + 600;
     }
   }
 
   update() {
-    if (this.body.velocity.x > 0) {
-      this.animations.play('rigth');
-    } else if (this.body.velocity.x < 0) {
-      this.animations.play('left');
+
+   if((this.x - playerp.x) > 0 && (this.x - playerp.x) > 400 && this.contPasosEnemigo==0){
+      this.contPasosEnemigo++;
+      this.direction = -1;
+      this.body.velocity.x = 10 * this.direction;
     }
-
-
-    if ((this.x - playerp.x) > 0 && (this.x - playerp.x) < 400 && ((this.y - playerp.y)>-100 && ((this.y - playerp.y)<100)) && this.alive) {
+    else if ((this.x - playerp.x) > 0 && (this.x - playerp.x) < 400 && ((this.y - playerp.y)>-100 && ((this.y - playerp.y)<100)) && this.alive) {
       // si el jugador esta a la izquierda
       // y en el mismo nivel
       // dispara a la izquierda
       this.scale.x = 2;
       this.direction = -1;
-      setTimeout(shoot,2000);
-      //this.shoot();
+      this.shoot();
       this.animations.play('shootl');
     } else if ((this.x - playerp.x) < 0 && (playerp.x - this.x) < 400 && ((this.y - playerp.y)>-100 && ((this.y - playerp.y)<100)) && this.alive) {
       // si el jugador esta detras
       this.direction = 1;
       this.scale.x = -2;
       this.animations.stop();
-      setTimeout(shoot,2000);
-      //this.shoot();
+      this.shoot();
     } else {
       this.body.velocity.x = 0;
       this.animations.stop();
@@ -117,6 +120,7 @@ class MainPlayer extends Entity {
     super(game,x,y,hp,'camilo');
     game.add.existing(this);
     this.direction = 1;
+    
     //controls
     this.keyL = game.input.keyboard.addKey(Phaser.Keyboard.L);
     this.keyA = game.input.keyboard.addKey(Phaser.Keyboard.A);
@@ -193,7 +197,7 @@ class Bullet extends Phaser.Sprite {
     this.body.velocity.x  = vX;
     this.body.velocity.y = vY;
     this.frame = 0;
-    this.lifespan = 400;
+    this.lifespan = 600;
   }
   // methods
 }

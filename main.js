@@ -20,8 +20,13 @@ function preload() {
 let backgrund, enemies, test, enemy, bullets;
 let bulletRate = 0;
 let direccion = 1;
+let txtVidas;
+let txtPuntaje;
 
 function create() {
+  game.vidas=3;
+  game.puntaje=0;
+
   game.physics.startSystem(Phaser.Physics.ARCADE);
 
   background = game.add.sprite(0,0,'background').scale.setTo(2,2);
@@ -38,6 +43,10 @@ function create() {
   // ground
   createGround();
 
+  txtVidas = game.add.text(20, 20, 'Vidas: 3', {font: '24px Arial', fill: '#000'});
+  txtVidas.fixedToCamera=true;
+  txtPuntaje = game.add.text(120, 20, 'Puntaje: 0', { font: '24px Arial', fill: '#000' });
+  txtPuntaje.fixedToCamera=true;
 }
 
 function update() {
@@ -45,7 +54,7 @@ function update() {
   //**  Arreglar colisiones  **//
 
   //game.physics.arcade.collide(bullets, ground, bulletKillGround);
-  //game.physics.arcade.collide(player, bullets, playerKill);
+  game.physics.arcade.collide(playerp, bullets, playerKill);
   game.physics.arcade.collide(enemies, ground);
   game.physics.arcade.collide(playerp, ground);
   game.physics.arcade.overlap(bullets, enemies, enemyKill);
@@ -54,7 +63,7 @@ function update() {
 
 function render() {
   //game.debug.cameraInfo(game.camera, 32, 32);
-  game.debug.spriteInfo(playerp, 32, 32);
+  //game.debug.spriteInfo(playerp, 32, 32);
   game.debug.body(playerp);
   game.debug.body(ground);
 }

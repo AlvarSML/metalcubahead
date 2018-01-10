@@ -18,7 +18,7 @@ function shootBullet(x,y,dx,dy){
       bullet.scale.setTo(2,2);
       if (direccion == -1){
         bullet.scale.x = -2;
-      }; 
+      };
 
     let x,y;
 
@@ -28,7 +28,7 @@ function shootBullet(x,y,dx,dy){
 
     bullet.body.velocity.x = 1000 * direccion;
     bullet.body.velocity.y = (player.body.velocity.y) * .5;
-    
+
     bulletRate = game.time.now + 300;
     //bullet rate
     }
@@ -43,7 +43,20 @@ function resetBullet (bullet) {
 
 function playerKill(player,bullet){
   player.kill();
+  player.deleteEntity();
   bullet.kill();
+  game.vidas -= 1;
+  txtVidas.setText('Vidas: '+game.vidas);
+  playerp = new MainPlayer(game,200,200,10);
+  game.camera.follow(playerp);
+
+  if(game.vidas == 0){
+     playerp.kill();
+     //gTile.kill();
+     game.add.text(200, 250, 'Perdiste', {font:'80px Arial', fill: '#000'});
+     game.add.text(200, 350, 'Nivel: '+game.nivel, {font:'30px Arial', fill: '#000'});
+     game.add.text(200, 400, 'Puntaje: '+game.puntaje, {font:'30px Arial', fill: '#000'});
+  }
 }
 
 function bulletKillGround(bullet,ground){
@@ -57,6 +70,12 @@ function enemyKill(bullet,ene){
   if (ene.health <= 0) {
     ene.kill();
     ene.alive = false;
+    game.puntaje+=100;
+    txtPuntaje.setText('Puntaje: '+game.puntaje);
   }
   console.log(ene.health);
+}
+
+function perderVida(){
+
 }
