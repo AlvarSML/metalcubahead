@@ -1,3 +1,4 @@
+let contBalas=60;
 /* personaje generico */
 class Entity extends Phaser.Sprite {
   constructor(game,x,y,hp,sprite){
@@ -48,10 +49,14 @@ class Entity extends Phaser.Sprite {
 
 }
 class EnemyBoss extends Entity{
+  //posicion 2400x 400y
   constructor(game,x,y,hp){
     super(game,x,y,hp,'enemy');
     this.alive = true;
     this.frame = 2;
+    this.contBalas = 50;
+    this.contSalto = 50;
+    this.movimiento = "left";
     //this.body.immovable = true;
     /*animaciones*/
     this.animations.add('rigth',[9,10,11],5,true);
@@ -61,8 +66,9 @@ class EnemyBoss extends Entity{
     }
     shoot(){
       if (this.bulletRate < game.time.now) {
-
-          let bullet = new Bullet(game,this.x - (50 * this.direction * -1),this.y + 10,500 * this.direction,0);
+        if(this.contBalas<31 && this.contBalas>25){
+          this.contBalas--;
+          let bullet = new Bullet(game,this.x - (50 * this.direction * -1),this.y + 10,500 * this.direction,this.body.velocity.y * .5);
 
 
         if (this.direction == -1) {
@@ -72,20 +78,20 @@ class EnemyBoss extends Entity{
         bullets.add(bullet);
 
         console.log('PUM!');
-        this.bulletRate = game.time.now + 600;
+        this.bulletRate = game.time.now + 50;
+        }
+        else if(this.contBalas==0){
+          this.contBalas=30;
+        }else{
+          this.contBalas--;
+        }
       }
     }
 
     update() {
-
-     if((this.x - playerp.x) > 0 && (this.x - playerp.x) > 400 && this.contPasosEnemigo==0){
-        this.contPasosEnemigo++;
-        this.direction = -1;
-        this.body.velocity.x = 10 * this.direction;
-      }
-      else if ((this.x - playerp.x) > 0 && (this.x - playerp.x) < 400 && ((this.y - playerp.y)>-100 && ((this.y - playerp.y)<100)) && this.alive) {
+      if ((this.x - playerp.x) > 0 && (this.x - playerp.x) < 400 && ((this.y - playerp.y)>-100 && ((this.y - playerp.y)<100)) && this.alive) {
         // si el jugador esta a la izquierda
-        // y en el mismo nivel
+        // y en un rango de 50 arriba o abajo
         // dispara a la izquierda
         this.scale.x = 2;
         this.direction = -1;
@@ -98,10 +104,45 @@ class EnemyBoss extends Entity{
         this.animations.stop();
         this.shoot();
       } else {
-        this.body.velocity.x = 0;
-        this.animations.stop();
+        //this.body.velocity.x = 0;
+        //this.animations.stop();
+      }
+
+      if(/*this.x-2400 <=0 && this.x-2400>-200*/this.movimiento=="left"){
+        this.direction = -1;
+        this.body.velocity.x=this.direction*200;
+        if(this.x<=2200){
+          this.movimiento="right";
+        }
+      }else{
+        this.direction = 1;
+        this.body.velocity.x=this.direction*200;
+        if(this.x>=2600){
+          this.movimiento="left";
+        }
+      }
+
+      if(this.body.velocity.y == 0){
+        if(this.contSalto==50){
+        this.body.velocity.y = -400;
+        this.contSalto--;
+          if (this.bulletRate < game.time.now) {
+            let bullet = new Bullet(game,this.x,this.y - 80,30 * this.direction,-400);
+            bullet.setLifespan(3000);
+            bullet.body.gravity.y = 1000;
+            bullets.add(bullet);
+            this.bulletRate = game.time.now + 1000;
+          }
+        }else if(this.contSalto==0){
+          this.contSalto=50;
+        }
+        else{
+          this.contSalto--;
+        }
       }
     }
+
+
 
     stdReset(x, y) {
       this.reset(x, y);
@@ -119,6 +160,7 @@ class Enemy extends Entity {
     super(game,x,y,hp,'enemy');
     this.alive = true;
     this.frame = 2;
+    this.contBalas=contBalas;
     //this.body.immovable = true;
     /*animaciones*/
     this.animations.add('rigth',[9,10,11],5,true);
@@ -129,7 +171,8 @@ class Enemy extends Entity {
 
   shoot(){
     if (this.bulletRate < game.time.now) {
-
+      if(this.contBalas<31 && this.contBalas>27){
+        this.contBalas--;
         let bullet = new Bullet(game,this.x - (50 * this.direction * -1),this.y + 10,500 * this.direction,0);
 
 
@@ -140,7 +183,13 @@ class Enemy extends Entity {
       bullets.add(bullet);
 
       console.log('PUM!');
-      this.bulletRate = game.time.now + 600;
+      this.bulletRate = game.time.now + 50;
+      }
+      else if(this.contBalas==0){
+        this.contBalas=30;
+      }else{
+        this.contBalas--;
+      }
     }
   }
 
@@ -265,6 +314,9 @@ class Bullet extends Phaser.Sprite {
     this.lifespan = 600;
   }
   // methods
+  setLifespan(lifespan){
+    this.lifespan=lifespan;
+  }
 }
 
 /****/

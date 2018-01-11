@@ -37,10 +37,11 @@ function create() {
 
   /* Enemigos */
   enemies = game.add.group();
-  spawnEnemy(600,0,3);
-
   /*Boss*/
   enemies.add(new EnemyBoss(game,2400,400,20));
+  spawnEnemy(600,0,3);
+
+
 
   bullets = game.add.group();
   // ground
@@ -56,7 +57,7 @@ function update() {
   //colision suelo
   //**  Arreglar colisiones  **//
 
-  //game.physics.arcade.collide(bullets, ground, bulletKillGround);
+  game.physics.arcade.collide(bullets, ground, bulletKillGround);
   game.physics.arcade.collide(playerp, bullets, playerKill);
   game.physics.arcade.collide(enemies, ground);
   game.physics.arcade.collide(playerp, ground);
@@ -68,5 +69,5 @@ function render() {
   //game.debug.cameraInfo(game.camera, 32, 32);
   //game.debug.spriteInfo(playerp, 32, 32);
   game.debug.body(playerp);
-  game.debug.body(ground);
+  game.debug.body(enemies.getFirstExists(true));
 }

@@ -49,17 +49,22 @@ function playerKill(player,bullet){
     player.kill();
     player.deleteEntity();
     game.vidas -= 1;
-    playerp = new MainPlayer(game,200,200,10);
-    game.camera.follow(playerp);
+    if(game.vidas>0){
+      playerp = new MainPlayer(game,200,200,10);
+      game.camera.follow(playerp);
+    }
     txtVidas.setText('Vidas: '+game.vidas);
   }
 
   if(game.vidas == 0){
      playerp.kill();
      //gTile.kill();
-     game.add.text(200, 250, 'Perdiste', {font:'80px Arial', fill: '#000'});
-     game.add.text(200, 350, 'Nivel: '+game.nivel, {font:'30px Arial', fill: '#000'});
-     game.add.text(200, 400, 'Puntaje: '+game.puntaje, {font:'30px Arial', fill: '#000'});
+     txt1=game.add.text(200, 250, 'Perdiste', {font:'80px Arial', fill: '#000'});
+     txt1.fixedToCamera=true;
+     txt2=game.add.text(200, 350, 'Nivel: '+game.nivel, {font:'30px Arial', fill: '#000'});
+     txt2.fixedToCamera=true;
+     txt3=game.add.text(200, 400, 'Puntaje: '+game.puntaje, {font:'30px Arial', fill: '#000'});
+     txt3.fixedToCamera=true;
   }
 }
 
