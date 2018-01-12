@@ -31,7 +31,7 @@ function create() {
   background = game.add.sprite(0,0,'background').scale.setTo(2,2);
 
   /* Protagonista */
-  playerp = new MainPlayer(game,3000,200,10);
+  playerp = new MainPlayer(game,200,200,10);
   game.camera.follow(playerp);
 
   /* Enemigos */
