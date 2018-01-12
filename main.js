@@ -19,8 +19,13 @@ function preload() {
 let backgrund, enemies, test, enemy, bullets, fin;
 let bulletRate = 0;
 let direccion = 1;
+let txtVidas;
+let txtPuntaje;
 
 function create() {
+  game.vidas=3;
+  game.puntaje=0;
+
   game.physics.startSystem(Phaser.Physics.ARCADE);
   /*
   game.load.onLoadStart.add(loadStart, this);
@@ -35,20 +40,28 @@ function create() {
 
   /* Enemigos */
   enemies = game.add.group();
+  /*Boss*/
+  enemies.add(new EnemyBoss(game,2400,400,20));
   spawnEnemy(600,0,3);
+
+
 
   bullets = game.add.group();
   // ground
   createGround();
 
+  txtVidas = game.add.text(20, 20, 'Vidas: 3', {font: '24px Arial', fill: '#000'});
+  txtVidas.fixedToCamera=true;
+  txtPuntaje = game.add.text(120, 20, 'Puntaje: 0', { font: '24px Arial', fill: '#000' });
+  txtPuntaje.fixedToCamera=true;
 }
 
 function update() {
   //colision suelo
   //**  Arreglar colisiones  **//
 
-  //game.physics.arcade.collide(bullets, ground, bulletKillGround);
-  //game.physics.arcade.collide(player, bullets, playerKill);
+  game.physics.arcade.collide(bullets, ground, bulletKillGround);
+  game.physics.arcade.collide(playerp, bullets, playerKill);
   game.physics.arcade.collide(enemies, ground);
   game.physics.arcade.collide(playerp, ground);
   game.physics.arcade.overlap(bullets, enemies, enemyKill);
@@ -57,7 +70,7 @@ function update() {
 
 function render() {
   //game.debug.cameraInfo(game.camera, 32, 32);
-  game.debug.spriteInfo(playerp, 32, 32);
+  //game.debug.spriteInfo(playerp, 32, 32);
   game.debug.body(playerp);
-  game.debug.body(ground);
+  game.debug.body(enemies.getFirstExists(true));
 }
