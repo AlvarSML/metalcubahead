@@ -33,7 +33,7 @@ class Entity extends Phaser.Sprite {
   shoot(){
     if (this.bulletRate < game.time.now) {
 
-        let bullet = new Bullet(game,this.x - (50 * this.direction * -1),this.y + 10,1000 * this.direction,0);
+      let bullet = new Bullet(game,this.x - (50 * this.direction * -1),this.y + 10,1000 * this.direction,0);
 
 
       if (this.direction == -1) {
@@ -243,29 +243,38 @@ class MainPlayer extends Entity {
 
     //animations
     this.animations.add('run', [0, 1, 2], 10, true);
+    this.animations.add('shootrun', ['shoot','shootrun1','shootrun2',], 10,true);
+    this.animations.add('squash', ['down'],10,true);
+    this.animations.add('damage', ['damage'],10,true);
   }
 
   update() {
     let adown = this.keyA.isDown;
     let ddown = this.keyD.isDown;
     let sdown = this.keyS.isDown;
+    let ldown = this.keyL.isDown;
 
+    if(!this.body.touching.down){
+      this.frame = 4;
+    }
 
     if (sdown) {
-      this.direction = 1;
       this.body.velocity.x = 0;
-      this.animations.play('run');
-      this.scale.x = 2;
-      playerp.body.setSize(35, 10, 5, 32);
+      this.frame = 5
+      playerp.body.setSize(37, 10, 5, 25);
     }else if (adown) {
       this.direction = -1;
       this.body.velocity.x = -200;
-      this.animations.play('run');
+      if (this.body.touching.down) {
+        this.animations.play('run');
+      }
       this.scale.x = -2;
     } else if (ddown) {
       this.direction = 1;
       this.body.velocity.x = 200;
-      this.animations.play('run');
+      if (this.body.touching.down) {
+        this.animations.play('run');
+      }
       this.scale.x = 2;
     }
     else {
@@ -273,25 +282,35 @@ class MainPlayer extends Entity {
     }
 
     if(!sdown){
-      playerp.body.setSize(15, 37, 10, 5);
+      playerp.body.setSize(15, 37, 10, 4);
     }
 
-    if (this.keyL.isDown) {
-      this.shoot();
+    if (ldown) {
+      this.shootPlayer();
     }
 
 
-    if(!this.keyL.isDown && !this.keyS.isDown && !this.keyA.isDown && !this.keyD.isDown){
+    if(!ldown && !sdown && !adown && !ddown && this.body.touching.down){
       this.animations.stop();
       this.body.velocity.x = 0;
-      this.frame = 3;
+      this.frame = 0;
     }
 
     if(this.keySpace.isDown && this.body.touching.down){
       this.jump();
+      this.frame = 4;
     }
 
-
+  }
+  shootPlayer(){
+    this.shoot();
+    if (this.body.velocity.x != 0) {
+      this.animations.play('shootrun');
+    } else if(this.keyS.isDown){
+      this.frame = 6;
+    } else {
+      this.frame = 3;
+    }
   }
 
   jump(){

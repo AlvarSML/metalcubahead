@@ -6,18 +6,17 @@ const GRAVEDAD = 800;
 let keyW, keyA, keyS, keyD;
 
 function preload() {
-  game.load.spritesheet('player','assets/characters/character.png',33,44,7);
   game.load.spritesheet('enemy','assets/characters/soldier.png',32,44,12);
   game.load.spritesheet('bullets','assets/bullets.png',9,5,6);
-  game.load.atlas('texturas','assets/tiles/spritesheet.png', 'assets/tiles/sprites2.json', Phaser.Loader.TEXTURE_ATLAS_JSON_HASH);
+  game.load.atlas('texturas','assets/tiles/texturas.png', 'assets/tiles/texturas.json', Phaser.Loader.TEXTURE_ATLAS_JSON_HASH);
   game.load.atlas('camilo','assets/characters/camilo.png','assets/characters/camilo.json', Phaser.Loader.TEXTURE_ATLAS_JSON_HASH);
   game.load.image('background','assets/fondo3.png');
-  game.load.image('bullet','assets/bullet.png');
 
-  game.world.setBounds(0,0,3000, 600);
+  game.world.setBounds(0,0,4000, 600);
+  game.load.spritesheet('a','assets/characters/soldier.png',1);
 }
 
-let backgrund, enemies, test, enemy, bullets;
+let backgrund, enemies, test, enemy, bullets, fin;
 let bulletRate = 0;
 let direccion = 1;
 let txtVidas;
@@ -28,11 +27,15 @@ function create() {
   game.puntaje=0;
 
   game.physics.startSystem(Phaser.Physics.ARCADE);
-
+  /*
+  game.load.onLoadStart.add(loadStart, this);
+  game.load.onFileComplete.add(fileComplete, this);
+  game.load.onLoadComplete.add(loadComplete, this);
+  */
   background = game.add.sprite(0,0,'background').scale.setTo(2,2);
 
   /* Protagonista */
-  playerp = new MainPlayer(game,200,200,10);
+  playerp = new MainPlayer(game,2700,200,10);
   game.camera.follow(playerp);
 
   /* Enemigos */
