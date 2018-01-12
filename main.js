@@ -16,11 +16,12 @@ function preload() {
   game.load.spritesheet('a','assets/characters/soldier.png',1);
 }
 
-let backgrund, enemies, test, enemy, bullets, fin;
+let backgrund, enemies, test, enemy, bullets, fin, ffin;
 let bulletRate = 0;
 let direccion = 1;
 let txtVidas;
 let txtPuntaje;
+let gameEnd = false;
 
 function create() {
   game.vidas=3;
@@ -65,7 +66,10 @@ function update() {
   game.physics.arcade.collide(enemies, ground);
   game.physics.arcade.collide(playerp, ground);
   game.physics.arcade.overlap(bullets, enemies, enemyKill);
-  game.physics.arcade.collide(playerp, fin, win);
+  if (!gameEnd) {
+   game.physics.arcade.overlap(playerp, fin, win);
+  }
+ 
 
 }
 

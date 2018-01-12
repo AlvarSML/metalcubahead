@@ -91,10 +91,14 @@ function perderVida(){
 
 function win(player,fin) {
   console.log('fin');
-  txt1=game.add.text(200, 250, 'Victoria!', {font:'80px Arial', fill: '#000'});
+  txt1=game.add.text(200, 250, 'Victoria!', {font:'80px Arial', fill: '#fff'});
   txt1.fixedToCamera=true;
-  txt2=game.add.text(200, 350, 'Nivel: '+game.nivel, {font:'30px Arial', fill: '#000'});
+  txt2=game.add.text(200, 350, 'Nivel: '+game.nivel, {font:'30px Arial', fill: '#fff'});
   txt2.fixedToCamera=true;
-  txt3=game.add.text(200, 400, 'Puntaje: '+game.puntaje, {font:'30px Arial', fill: '#000'});
+  txt3=game.add.text(200, 400, 'Puntaje: '+game.puntaje, {font:'30px Arial', fill: '#fff'});
   txt3.fixedToCamera=true;
+  gameEnd = true;
+
+  game.camera.follow(fin);
+  
 }
