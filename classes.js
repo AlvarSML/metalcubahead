@@ -127,7 +127,7 @@ class EnemyBoss extends Entity{
         this.body.velocity.y = -400;
         this.contSalto--;
           if (this.bulletRate < game.time.now) {
-            let bullet = new Bullet(game,this.x,this.y - 80,30 * this.direction,-400);
+            let bullet = new Bullet(game,this.x,this.y - 80,50 * this.direction,-400);
             bullet.setLifespan(3000);
             bullet.body.gravity.y = 1000;
             bullets.add(bullet);
@@ -135,8 +135,7 @@ class EnemyBoss extends Entity{
           }
         }else if(this.contSalto==0){
           this.contSalto=50;
-        }
-        else{
+        }else{
           this.contSalto--;
         }
       }
