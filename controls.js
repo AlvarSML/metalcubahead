@@ -18,21 +18,21 @@ function shootBullet(x,y,dx,dy){
       bullet.scale.setTo(2,2);
       if (direccion == -1){
         bullet.scale.x = -2;
-      }; 
+      };
 
-    let x,y;
+      let x,y;
 
-    x = (player.x + 20) * direccion;
-    y = (player.y + 20) * direccion;
-    bullet.reset(x,y);
+      x = (player.x + 20) * direccion;
+      y = (player.y + 20) * direccion;
+      bullet.reset(x,y);
 
-    bullet.body.velocity.x = 1000 * direccion;
-    bullet.body.velocity.y = (player.body.velocity.y) * .5;
-    
-    bulletRate = game.time.now + 300;
+      bullet.body.velocity.x = 1000 * direccion;
+      bullet.body.velocity.y = (player.body.velocity.y) * .5;
+
+      bulletRate = game.time.now + 300;
     //bullet rate
-    }
   }
+}
 }
 
 
@@ -42,11 +42,33 @@ function resetBullet (bullet) {
 }
 
 function playerKill(player,bullet){
-  player.kill();
   bullet.kill();
-}
+  player.health-=1;
 
-function bulletKillGround(bullet,ground){
+  if(player.health<0){
+    player.kill();
+    player.deleteEntity();
+    game.vidas -= 1;
+    if(game.vidas>0){
+      playerp = new MainPlayer(game,200,200,10);
+      game.camera.follow(playerp);
+    }
+    txtVidas.setText('Vidas: '+game.vidas);
+  }
+
+  if(game.vidas == 0){
+   playerp.kill();
+     //gTile.kill();
+     txt1=game.add.text(200, 250, 'Perdiste', {font:'80px Arial', fill: '#000'});
+     txt1.fixedToCamera=true;
+     txt2=game.add.text(200, 350, 'Nivel: '+game.nivel, {font:'30px Arial', fill: '#000'});
+     txt2.fixedToCamera=true;
+     txt3=game.add.text(200, 400, 'Puntaje: '+game.puntaje, {font:'30px Arial', fill: '#000'});
+     txt3.fixedToCamera=true;
+   }
+ }
+
+ function bulletKillGround(bullet,ground){
   bullet.kill();
 }
 
@@ -57,6 +79,22 @@ function enemyKill(bullet,ene){
   if (ene.health <= 0) {
     ene.kill();
     ene.alive = false;
+    game.puntaje+=100;
+    txtPuntaje.setText('Puntaje: '+game.puntaje);
   }
   console.log(ene.health);
+}
+
+function perderVida(){
+
+}
+
+function win(player,fin) {
+  console.log('fin');
+  txt1=game.add.text(200, 250, 'Victoria!', {font:'80px Arial', fill: '#000'});
+  txt1.fixedToCamera=true;
+  txt2=game.add.text(200, 350, 'Nivel: '+game.nivel, {font:'30px Arial', fill: '#000'});
+  txt2.fixedToCamera=true;
+  txt3=game.add.text(200, 400, 'Puntaje: '+game.puntaje, {font:'30px Arial', fill: '#000'});
+  txt3.fixedToCamera=true;
 }
