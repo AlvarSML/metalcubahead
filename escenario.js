@@ -2,7 +2,9 @@ function createTile(x,y,material,side){
   //side = l, r, m (left-right-middle)
   let sp = material + side;
   let tile = ground.create(x,y,'texturas',sp);
-  tile.body.checkCollision.down = false;
+  if (material != 'branch') {
+    tile.body.checkCollision.down = false;
+  }  
   tile.scale.setTo(2,2);
   tile.body.immovable = true;
 }
@@ -92,7 +94,8 @@ function createGround() {
   createTile(3000,270,'branch','');
   createTile(3000,410,'branch','');
 
-  
+  fin = game.add.sprite(3200,410,'texturas','flag3');
+  fin.scale.setTo(3,3);
 
   for (let x = 0; x < game.world.width;x+=50) {
     gTile = ground.create(x,game.world.height - 50,'texturas','ground');

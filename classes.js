@@ -140,10 +140,8 @@ class MainPlayer extends Entity {
     }
 
     if (sdown) {
-      this.direction = 1;
       this.body.velocity.x = 0;
-      this.frame = 5;
-      this.scale.x = 2;
+      this.frame = 5
       playerp.body.setSize(37, 10, 5, 25);
     }else if (adown) {
       this.direction = -1;

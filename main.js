@@ -16,7 +16,7 @@ function preload() {
   game.load.spritesheet('a','assets/characters/soldier.png',1);
 }
 
-let backgrund, enemies, test, enemy, bullets;
+let backgrund, enemies, test, enemy, bullets, fin;
 let bulletRate = 0;
 let direccion = 1;
 
