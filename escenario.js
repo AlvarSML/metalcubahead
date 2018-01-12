@@ -94,8 +94,7 @@ function createGround() {
   createTile(3000,270,'branch','');
   createTile(3000,410,'branch','');
 
-  fin = game.add.sprite(3200,410,'texturas','flag3');
-  fin.scale.setTo(3,3);
+  
 
   for (let x = 0; x < game.world.width;x+=50) {
     gTile = ground.create(x,game.world.height - 50,'texturas','ground');

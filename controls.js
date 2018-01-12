@@ -20,19 +20,19 @@ function shootBullet(x,y,dx,dy){
         bullet.scale.x = -2;
       };
 
-    let x,y;
+      let x,y;
 
-    x = (player.x + 20) * direccion;
-    y = (player.y + 20) * direccion;
-    bullet.reset(x,y);
+      x = (player.x + 20) * direccion;
+      y = (player.y + 20) * direccion;
+      bullet.reset(x,y);
 
-    bullet.body.velocity.x = 1000 * direccion;
-    bullet.body.velocity.y = (player.body.velocity.y) * .5;
+      bullet.body.velocity.x = 1000 * direccion;
+      bullet.body.velocity.y = (player.body.velocity.y) * .5;
 
-    bulletRate = game.time.now + 300;
+      bulletRate = game.time.now + 300;
     //bullet rate
-    }
   }
+}
 }
 
 
@@ -57,7 +57,7 @@ function playerKill(player,bullet){
   }
 
   if(game.vidas == 0){
-     playerp.kill();
+   playerp.kill();
      //gTile.kill();
      txt1=game.add.text(200, 250, 'Perdiste', {font:'80px Arial', fill: '#000'});
      txt1.fixedToCamera=true;
@@ -65,10 +65,10 @@ function playerKill(player,bullet){
      txt2.fixedToCamera=true;
      txt3=game.add.text(200, 400, 'Puntaje: '+game.puntaje, {font:'30px Arial', fill: '#000'});
      txt3.fixedToCamera=true;
-  }
-}
+   }
+ }
 
-function bulletKillGround(bullet,ground){
+ function bulletKillGround(bullet,ground){
   bullet.kill();
 }
 
@@ -87,4 +87,14 @@ function enemyKill(bullet,ene){
 
 function perderVida(){
 
+}
+
+function win(player,fin) {
+  console.log('fin');
+  txt1=game.add.text(200, 250, 'Victoria!', {font:'80px Arial', fill: '#000'});
+  txt1.fixedToCamera=true;
+  txt2=game.add.text(200, 350, 'Nivel: '+game.nivel, {font:'30px Arial', fill: '#000'});
+  txt2.fixedToCamera=true;
+  txt3=game.add.text(200, 400, 'Puntaje: '+game.puntaje, {font:'30px Arial', fill: '#000'});
+  txt3.fixedToCamera=true;
 }

@@ -27,15 +27,11 @@ function create() {
   game.puntaje=0;
 
   game.physics.startSystem(Phaser.Physics.ARCADE);
-  /*
-  game.load.onLoadStart.add(loadStart, this);
-  game.load.onFileComplete.add(fileComplete, this);
-  game.load.onLoadComplete.add(loadComplete, this);
-  */
+  
   background = game.add.sprite(0,0,'background').scale.setTo(2,2);
 
   /* Protagonista */
-  playerp = new MainPlayer(game,2700,200,10);
+  playerp = new MainPlayer(game,3000,200,10);
   game.camera.follow(playerp);
 
   /* Enemigos */
@@ -49,6 +45,10 @@ function create() {
   bullets = game.add.group();
   // ground
   createGround();
+
+  fin = game.add.sprite(3200,430,'texturas','flag3');
+  game.physics.enable(fin);
+  fin.scale.setTo(3,3);
 
   txtVidas = game.add.text(20, 20, 'Vidas: 3', {font: '24px Arial', fill: '#000'});
   txtVidas.fixedToCamera=true;
@@ -65,6 +65,7 @@ function update() {
   game.physics.arcade.collide(enemies, ground);
   game.physics.arcade.collide(playerp, ground);
   game.physics.arcade.overlap(bullets, enemies, enemyKill);
+  game.physics.arcade.collide(playerp, fin, win);
 
 }
 
@@ -72,5 +73,5 @@ function render() {
   //game.debug.cameraInfo(game.camera, 32, 32);
   //game.debug.spriteInfo(playerp, 32, 32);
   game.debug.body(playerp);
-  game.debug.body(enemies.getFirstExists(true));
+  //game.debug.body(enemies.getFirstExists(true));
 }
