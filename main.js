@@ -11,32 +11,33 @@ function preload() {
   game.load.image('mortar','assets/mortar.png',25,10,90);
   game.load.atlas('texturas','assets/tiles/texturas.png', 'assets/tiles/texturas.json', Phaser.Loader.TEXTURE_ATLAS_JSON_HASH);
   game.load.atlas('camilo','assets/characters/camilo.png','assets/characters/camilo.json', Phaser.Loader.TEXTURE_ATLAS_JSON_HASH);
+  game.load.atlas('hpbar','assets/hpbar.png','assets/hpbar.json', Phaser.Loader.TEXTURE_ATLAS_JSON_HASH);
   game.load.image('background','assets/fondo3.png');
 
   game.world.setBounds(0,0,4000, 600);
   game.load.spritesheet('a','assets/characters/soldier.png',1);
 }
 
-let backgrund, enemies, test, enemy, bullets, eBullets, fin;
+
+let backgrund, enemies, test, enemy, bullets, fin, ffin, eBullets;
+
 let bulletRate = 0;
 let direccion = 1;
 let txtVidas;
 let txtPuntaje;
+let gameEnd = false;
+let bar = [];
 
 function create() {
   game.vidas=3;
   game.puntaje=0;
 
   game.physics.startSystem(Phaser.Physics.ARCADE);
-  /*
-  game.load.onLoadStart.add(loadStart, this);
-  game.load.onFileComplete.add(fileComplete, this);
-  game.load.onLoadComplete.add(loadComplete, this);
-  */
+  
   background = game.add.sprite(0,0,'background').scale.setTo(2,2);
 
   /* Protagonista */
-  playerp = new MainPlayer(game,2700,200,10);
+  playerp = new MainPlayer(game,200,400,10);
   game.camera.follow(playerp);
 
   /* Enemigos */
@@ -45,29 +46,37 @@ function create() {
   enemies.add(new EnemyBoss(game,2400,400,20));
   spawnEnemy(600,0,3);
 
-
+  
 
   bullets = game.add.group();
   eBullets = game.add.group();
   // ground
   createGround();
 
-  txtVidas = game.add.text(20, 20, 'Vidas: 3', {font: '24px Arial', fill: '#000'});
+  fin = game.add.sprite(3200,450,'texturas','flag3');
+  game.physics.enable(fin);
+  fin.scale.setTo(3,3);
+
+  txtVidas = game.add.text(20, 50, 'Vidas: 3', {font: '12px Arial', fill: '#fff'});
   txtVidas.fixedToCamera=true;
-  txtPuntaje = game.add.text(120, 20, 'Puntaje: 0', { font: '24px Arial', fill: '#000' });
+  txtPuntaje = game.add.text(80, 50, 'Puntaje: 0', { font: '12px Arial', fill: '#fff' });
   txtPuntaje.fixedToCamera=true;
+
+  hpbar(playerp.health);
 }
 
 function update() {
-  //colision suelo
-  //**  Arreglar colisiones  **//
-
+  //colision suelo 
   game.physics.arcade.collide(bullets, ground, bulletKillGround);
   game.physics.arcade.collide(eBullets, ground, bulletKillGround);
   game.physics.arcade.collide(playerp, eBullets, playerKill);
   game.physics.arcade.collide(enemies, ground);
   game.physics.arcade.collide(playerp, ground);
   game.physics.arcade.overlap(bullets, enemies, enemyKill);
+  if (!gameEnd) {
+   game.physics.arcade.overlap(playerp, fin, win);
+  }
+ 
 
 }
 

@@ -348,7 +348,7 @@ class MainPlayer extends Entity {
   }
 }
 
-/** Test **/
+
 class Bullet extends Phaser.Sprite {
   constructor(game,x,y,vX,vY) {
     super(game,x,y,'bullets');
@@ -385,4 +385,3 @@ class Mortar extends Phaser.Sprite {
   }
 }
 
-/****/
