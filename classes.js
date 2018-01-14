@@ -320,15 +320,6 @@ class MainPlayer extends Entity {
 }
 
 
-class HPBar extends Phaser.Sprite {
-  constructor(game,x,y) {
-    super(game,x,y,'bullets');
-    game.add.existing(this);
-    this.scale.setTo(2,2);
-
-  }
-}
-
 class Bullet extends Phaser.Sprite {
   constructor(game,x,y,vX,vY) {
     super(game,x,y,'bullets');
