@@ -1,4 +1,4 @@
-let contBalas=60;
+let contBalas=60,algo=0,mortar;
 /* personaje generico */
 class Entity extends Phaser.Sprite {
   constructor(game,x,y,hp,sprite){
@@ -57,6 +57,9 @@ class EnemyBoss extends Entity{
     this.contBalas = 50;
     this.contSalto = 50;
     this.movimiento = "left";
+    this.ataque = true;
+    this.ataqueTiming=0;
+    this.mortarP;
     //this.body.immovable = true;
     /*animaciones*/
     this.animations.add('rigth',[9,10,11],5,true);
@@ -75,7 +78,7 @@ class EnemyBoss extends Entity{
           bullet.scale.x = -2;
         }
 
-        bullets.add(bullet);
+        eBullets.add(bullet);
 
         console.log('PUM!');
         this.bulletRate = game.time.now + 50;
@@ -88,7 +91,38 @@ class EnemyBoss extends Entity{
       }
     }
 
+    shootNade(){
+      if (this.bulletRate < game.time.now) {
+        let mortar = new Mortar(game,this.x,this.y - 80,50 * this.direction,-800);
+        mortar.setLifespan(3000);
+        mortar.body.gravity.y = 1000;
+        eBullets.add(mortar);
+        this.bulletRate = game.time.now + 1000;
+        mortar.angle+=90;
+      }
+      return mortar;
+    }
+
+    ataqueAereo(){
+      if(this.ataqueTiming<15){
+          let mortar = new Mortar(game,2100+40*this.ataqueTiming,50,0,400);
+          mortar.setLifespan(3000);
+          mortar.body.gravity.y = 1000;
+          eBullets.add(mortar);
+          this.ataqueTiming++;
+          this.ataqueAereo();
+          mortar.angle +=90;
+      }
+    }
+
     update() {
+
+
+      if(this.health==10 && this.ataque==true){
+          this.ataqueAereo();
+          this.ataque=false;
+      }
+
       if ((this.x - playerp.x) > 0 && (this.x - playerp.x) < 400 && ((this.y - playerp.y)>-100 && ((this.y - playerp.y)<100)) && this.alive) {
         // si el jugador esta a la izquierda
         // y en un rango de 50 arriba o abajo
@@ -111,13 +145,13 @@ class EnemyBoss extends Entity{
       if(/*this.x-2400 <=0 && this.x-2400>-200*/this.movimiento=="left"){
         this.direction = -1;
         this.body.velocity.x=this.direction*200;
-        if(this.x<=2200){
+        if(this.x<=2150){
           this.movimiento="right";
         }
       }else{
         this.direction = 1;
         this.body.velocity.x=this.direction*200;
-        if(this.x>=2600){
+        if(this.x>=2550){
           this.movimiento="left";
         }
       }
@@ -126,22 +160,16 @@ class EnemyBoss extends Entity{
         if(this.contSalto==50){
         this.body.velocity.y = -400;
         this.contSalto--;
-          if (this.bulletRate < game.time.now) {
-            let bullet = new Bullet(game,this.x,this.y - 80,30 * this.direction,-400);
-            bullet.setLifespan(3000);
-            bullet.body.gravity.y = 1000;
-            bullets.add(bullet);
-            this.bulletRate = game.time.now + 1000;
-          }
+        this.shootNade();
         }else if(this.contSalto==0){
           this.contSalto=50;
-        }
-        else{
+        }else{
           this.contSalto--;
         }
       }
-    }
 
+    //end Update
+    }
 
 
     stdReset(x, y) {
@@ -180,7 +208,7 @@ class Enemy extends Entity {
         bullet.scale.x = -2;
       }
 
-      bullets.add(bullet);
+      eBullets.add(bullet);
 
       console.log('PUM!');
       this.bulletRate = game.time.now + 50;
@@ -219,6 +247,7 @@ class Enemy extends Entity {
       this.animations.stop();
     }
   }
+
 
   stdReset(x, y) {
     this.reset(x, y);
@@ -262,7 +291,7 @@ class MainPlayer extends Entity {
     if (sdown) {
       this.body.velocity.x = 0;
       this.frame = 5
-      playerp.body.setSize(37, 10, 5, 25);
+      playerp.body.setSize(15, 10, 10, 25);
     }else if (adown) {
       this.direction = -1;
       this.body.velocity.x = -200;
@@ -330,7 +359,25 @@ class Bullet extends Phaser.Sprite {
     this.body.velocity.x  = vX;
     this.body.velocity.y = vY;
     this.frame = 0;
-    this.lifespan = 600;
+    this.lifespan = 1000;
+  }
+  // methods
+  setLifespan(lifespan){
+    this.lifespan=lifespan;
+  }
+}
+
+class Mortar extends Phaser.Sprite {
+  constructor(game,x,y,vX,vY) {
+    super(game,x,y,'mortar');
+    game.add.existing(this);
+    this.game.physics.enable(this);
+    this.body.collideWorldBounds = false;
+    this.scale.setTo(2,2);
+    this.body.velocity.x  = vX;
+    this.body.velocity.y = vY;
+    this.frame = 0;
+    this.lifespan = 1000;
   }
   // methods
   setLifespan(lifespan){

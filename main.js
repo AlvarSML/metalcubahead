@@ -8,6 +8,7 @@ let keyW, keyA, keyS, keyD;
 function preload() {
   game.load.spritesheet('enemy','assets/characters/soldier.png',32,44,12);
   game.load.spritesheet('bullets','assets/bullets.png',9,5,6);
+  game.load.image('mortar','assets/mortar.png',25,10,90);
   game.load.atlas('texturas','assets/tiles/texturas.png', 'assets/tiles/texturas.json', Phaser.Loader.TEXTURE_ATLAS_JSON_HASH);
   game.load.atlas('camilo','assets/characters/camilo.png','assets/characters/camilo.json', Phaser.Loader.TEXTURE_ATLAS_JSON_HASH);
   game.load.atlas('hpbar','assets/hpbar.png','assets/hpbar.json', Phaser.Loader.TEXTURE_ATLAS_JSON_HASH);
@@ -17,7 +18,9 @@ function preload() {
   game.load.spritesheet('a','assets/characters/soldier.png',1);
 }
 
-let backgrund, enemies, test, enemy, bullets, fin, ffin;
+
+let backgrund, enemies, test, enemy, bullets, fin, ffin, eBullets;
+
 let bulletRate = 0;
 let direccion = 1;
 let txtVidas;
@@ -46,6 +49,7 @@ function create() {
   
 
   bullets = game.add.group();
+  eBullets = game.add.group();
   // ground
   createGround();
 
@@ -64,7 +68,8 @@ function create() {
 function update() {
   //colision suelo 
   game.physics.arcade.collide(bullets, ground, bulletKillGround);
-  game.physics.arcade.collide(playerp, bullets, playerKill);
+  game.physics.arcade.collide(eBullets, ground, bulletKillGround);
+  game.physics.arcade.collide(playerp, eBullets, playerKill);
   game.physics.arcade.collide(enemies, ground);
   game.physics.arcade.collide(playerp, ground);
   game.physics.arcade.overlap(bullets, enemies, enemyKill);
@@ -80,5 +85,4 @@ function render() {
   //game.debug.spriteInfo(playerp, 32, 32);
   game.debug.body(playerp);
   //game.debug.body(enemies.getFirstExists(true));
-
 }
