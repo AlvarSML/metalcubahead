@@ -37,7 +37,7 @@ function create() {
   background = game.add.sprite(0,0,'background').scale.setTo(2,2);
 
   /* Protagonista */
-  playerp = new MainPlayer(game,200,400,10);
+  playerp = new MainPlayer(game,2200,400,10);
   game.camera.follow(playerp);
 
   /* Enemigos */
@@ -46,8 +46,10 @@ function create() {
   enemies.add(boss = new EnemyBoss(game,2400,400,20));
   spawnEnemy(600,0,3);
 
+
   enemies.add(new Enemy(game,1285,450,20));
   enemies.add(new Enemy(game,1820,465,20));
+
 
   bullets = game.add.group();
   eBullets = game.add.group();
@@ -61,7 +63,7 @@ function create() {
 
   fin = game.add.sprite(3200,450,'texturas','flag3');
   game.physics.enable(fin);
-  fin.scale.setTo(3,3);
+  fin.scale.setTo(3,3);  
 
   txtVidas = game.add.text(20, 50, 'Vidas: 3', {font: '12px Arial', fill: '#fff'});
   txtVidas.fixedToCamera=true;
