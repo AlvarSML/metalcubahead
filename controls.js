@@ -109,6 +109,9 @@ function enemyKill(bullet,ene){
     ene.alive = false;
     game.puntaje+=100;
     txtPuntaje.setText('Puntaje: '+game.puntaje);
+    if (boss.health <= 0) {
+      door.kill();
+    }
   }
   console.log(ene.health);
 }

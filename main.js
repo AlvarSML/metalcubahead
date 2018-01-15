@@ -19,7 +19,7 @@ function preload() {
 }
 
 
-let backgrund, enemies, test, enemy, bullets, fin, ffin, eBullets;
+let backgrund, enemies, test, enemy, bullets, fin, ffin, eBullets, door, boss;
 
 let bulletRate = 0;
 let direccion = 1;
@@ -37,19 +37,25 @@ function create() {
   background = game.add.sprite(0,0,'background').scale.setTo(2,2);
 
   /* Protagonista */
-  playerp = new MainPlayer(game,2200,400,10);
+  playerp = new MainPlayer(game,200,400,10);
   game.camera.follow(playerp);
 
   /* Enemigos */
   enemies = game.add.group();
   /*Boss*/
-  enemies.add(new EnemyBoss(game,2400,400,20));
+  enemies.add(boss = new EnemyBoss(game,2400,400,20));
   spawnEnemy(600,0,3);
 
-
+  enemies.add(new Enemy(game,1285,450,20));
+  enemies.add(new Enemy(game,1820,465,20));
 
   bullets = game.add.group();
   eBullets = game.add.group();
+
+  door = game.add.sprite(2700,410,'texturas','branch');
+  door.scale.setTo(2,2);
+  game.physics.enable(door);
+  door.body.immovable = true;
   // ground
   createGround();
 
@@ -72,6 +78,7 @@ function update() {
   game.physics.arcade.collide(playerp, eBullets, playerKill);
   game.physics.arcade.collide(enemies, ground);
   game.physics.arcade.collide(playerp, ground);
+  game.physics.arcade.collide(playerp, door);
   game.physics.arcade.overlap(bullets, enemies, enemyKill);
   if (!gameEnd) {
    game.physics.arcade.overlap(playerp, fin, win);
@@ -83,6 +90,6 @@ function update() {
 function render() {
   //game.debug.cameraInfo(game.camera, 32, 32);
   //game.debug.spriteInfo(playerp, 32, 32);
-  game.debug.body(playerp);
+  //game.debug.body(playerp);
   //game.debug.body(enemies.getFirstExists(true));
 }
