@@ -1,9 +1,27 @@
 let game = new Phaser.Game(800, 600, Phaser.AUTO, '', { preload: preload, create: create, update: update, render: render },false,false);
 let playerp, e;
 
+game.state.add('menu',menu);
+game.state.add('load',load);
+game.state.add('play',play);
+
 const GRAVEDAD = 800;
 
 let keyW, keyA, keyS, keyD;
+
+game.state.start('menu');
+
+function menu(){
+ console.log("hola")
+}
+
+function load(){
+
+}
+
+function playa(){
+
+}
 
 function preload() {
   game.load.spritesheet('enemy','assets/characters/soldier.png',32,44,12);
