@@ -33,11 +33,11 @@ function create() {
   game.puntaje=0;
 
   game.physics.startSystem(Phaser.Physics.ARCADE);
-  
+
   background = game.add.sprite(0,0,'background').scale.setTo(2,2);
 
   /* Protagonista */
-  playerp = new MainPlayer(game,200,400,10);
+  playerp = new MainPlayer(game,2200,400,10);
   game.camera.follow(playerp);
 
   /* Enemigos */
@@ -46,7 +46,7 @@ function create() {
   enemies.add(new EnemyBoss(game,2400,400,20));
   spawnEnemy(600,0,3);
 
-  
+
 
   bullets = game.add.group();
   eBullets = game.add.group();
@@ -66,7 +66,7 @@ function create() {
 }
 
 function update() {
-  //colision suelo 
+  //colision suelo
   game.physics.arcade.collide(bullets, ground, bulletKillGround);
   game.physics.arcade.collide(eBullets, ground, bulletKillGround);
   game.physics.arcade.collide(playerp, eBullets, playerKill);
@@ -76,7 +76,7 @@ function update() {
   if (!gameEnd) {
    game.physics.arcade.overlap(playerp, fin, win);
   }
- 
+
 
 }
 

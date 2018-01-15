@@ -92,14 +92,14 @@ class EnemyBoss extends Entity{
     }
 
     shootNade(){
-      if (this.bulletRate < game.time.now) {
+
         let mortar = new Mortar(game,this.x,this.y - 80,50 * this.direction,-800);
-        mortar.setLifespan(3000);
+        mortar.setLifespan(5000);
         mortar.body.gravity.y = 1000;
         eBullets.add(mortar);
-        this.bulletRate = game.time.now + 1000;
-        mortar.angle+=90;
-      }
+        //this.bulletRate = game.time.now + 1000;
+        mortar.angle-=90;
+
       return mortar;
     }
 
@@ -158,9 +158,15 @@ class EnemyBoss extends Entity{
 
       if(this.body.velocity.y == 0){
         if(this.contSalto==50){
-        this.body.velocity.y = -400;
-        this.contSalto--;
-        this.shootNade();
+          this.body.velocity.y = -400;
+          this.contSalto--;
+          this.shootNade();
+        }else if(this.contSalto==35){
+          this.contSalto--;
+          this.shootNade();
+        }else if(this.contSalto==15){
+          this.contSalto--;
+          this.shootNade();
         }else if(this.contSalto==0){
           this.contSalto=50;
         }else{
@@ -383,5 +389,14 @@ class Mortar extends Phaser.Sprite {
   setLifespan(lifespan){
     this.lifespan=lifespan;
   }
-}
 
+  update(){
+    if(this.body.velocity.y>=0 && (this.angle!=90 || this.angle!=-90)){
+      this.angle+=3*this.body.velocity.x/50;
+    }
+    else if(this.body.velocity.y>=-400 && (this.angle!=90 || this.angle!=-90)){
+      this.angle+=1*this.body.velocity.x/50;
+    }
+  }
+  
+}
