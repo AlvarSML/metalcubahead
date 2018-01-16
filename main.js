@@ -23,13 +23,16 @@ class GameState extends Phaser.State {
     game.vidas=3;
     game.puntaje=0;
 
+
     game.physics.startSystem(Phaser.Physics.ARCADE);
 
     this.background = game.add.sprite(0,0,'background').scale.setTo(2,2);
 
+
     /* Protagonista */
     playerp = new MainPlayer(game,200,400,10);
     game.camera.follow(playerp);
+
 
     /* Enemigos */
     enemies = game.add.group();
@@ -39,6 +42,7 @@ class GameState extends Phaser.State {
 
     enemies.add(new Enemy(game,1285,450,20));
     enemies.add(new Enemy(game,1820,465,20));
+
 
     bullets = game.add.group();
     eBullets = game.add.group();
@@ -59,8 +63,10 @@ class GameState extends Phaser.State {
     txtPuntaje = game.add.text(80, 50, 'Puntaje: 0', { font: '12px Arial', fill: '#fff' });
     txtPuntaje.fixedToCamera=true;
 
+
     hpbar(playerp.health);
   }
+
 
   update() {
     //colision suelo 

@@ -92,14 +92,14 @@ class EnemyBoss extends Entity{
     }
 
     shootNade(){
-      if (this.bulletRate < game.time.now) {
+
         let mortar = new Mortar(game,this.x,this.y - 80,50 * this.direction,-800);
-        mortar.setLifespan(3000);
+        mortar.setLifespan(5000);
         mortar.body.gravity.y = 1000;
         eBullets.add(mortar);
-        this.bulletRate = game.time.now + 1000;
-        mortar.angle+=90;
-      }
+        //this.bulletRate = game.time.now + 1000;
+        mortar.angle-=90;
+
       return mortar;
     }
 
@@ -158,9 +158,15 @@ class EnemyBoss extends Entity{
 
       if(this.body.velocity.y == 0){
         if(this.contSalto==50){
-        this.body.velocity.y = -400;
-        this.contSalto--;
-        this.shootNade();
+          this.body.velocity.y = -400;
+          this.contSalto--;
+          this.shootNade();
+        }else if(this.contSalto==35){
+          this.contSalto--;
+          this.shootNade();
+        }else if(this.contSalto==15){
+          this.contSalto--;
+          this.shootNade();
         }else if(this.contSalto==0){
           this.contSalto=50;
         }else{
@@ -197,11 +203,11 @@ class Enemy extends Entity {
     this.animations.add('shootr',[3,4,5],5,true);
   }
 
-  shoot(){
+  shoot(y){
     if (this.bulletRate < game.time.now) {
       if(this.contBalas<31 && this.contBalas>27){
         this.contBalas--;
-        let bullet = new Bullet(game,this.x - (50 * this.direction * -1),this.y + 10,500 * this.direction,0);
+        let bullet = new Bullet(game,this.x - (50 * this.direction * -1),this.y + 10,500 * this.direction,y);
 
 
       if (this.direction == -1) {
@@ -234,14 +240,26 @@ class Enemy extends Entity {
       // dispara a la izquierda
       this.scale.x = 2;
       this.direction = -1;
-      this.shoot();
+      /*if((this.y - playerp.y)>-100 && (this.y - playerp.y)<-50){
+        this.shoot(200);
+      }else if((this.y - playerp.y)<100 && (this.y - playerp.y)>50){
+        this.shoot(-200);
+      }else{*/
+        this.shoot(0);
+      //}
       this.animations.play('shootl');
     } else if ((this.x - playerp.x) < 0 && (playerp.x - this.x) < 400 && ((this.y - playerp.y)>-100 && ((this.y - playerp.y)<100)) && this.alive) {
       // si el jugador esta detras
       this.direction = 1;
       this.scale.x = -2;
       this.animations.stop();
-      this.shoot();
+      /*if((this.y - playerp.y)>-100 && (this.y - playerp.y)<-50){
+        this.shoot(200);
+      }else if((this.y - playerp.y)<100 && (this.y - playerp.y)>50){
+        this.shoot(-200);
+      }else{*/
+        this.shoot(0);
+      //}
     } else {
       this.body.velocity.x = 0;
       this.animations.stop();
@@ -383,5 +401,14 @@ class Mortar extends Phaser.Sprite {
   setLifespan(lifespan){
     this.lifespan=lifespan;
   }
-}
 
+  update(){
+    if(this.body.velocity.y>=0 && (this.angle!=90 || this.angle!=-90)){
+      this.angle+=3*this.body.velocity.x/50;
+    }
+    else if(this.body.velocity.y>=-400 && (this.angle!=90 || this.angle!=-90)){
+      this.angle+=1*this.body.velocity.x/50;
+    }
+  }
+
+}
