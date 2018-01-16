@@ -88,6 +88,7 @@ function playerKill(player,bullet){
     txt2.fixedToCamera=true;
     txt3=game.add.text(200, 400, 'Puntaje: '+game.puntaje, {font:'30px Arial', fill: '#fff'});
     txt3.fixedToCamera=true;
+    game.state.start('menu');
   }
 
   if (playerp.health < 10) {

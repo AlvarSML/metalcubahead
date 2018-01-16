@@ -8,7 +8,6 @@ class Menu extends Phaser.State {
   create(){
     game.add.sprite(0,0,'screen');
     game.add.sprite(300,500,'button');
-    game.add.text(290, 470, 'Por Juan Vega y Alvar San Martin', {font: '16px Arial', fill: '#000'});
     this.button = game.add.button(300,500,'button',this.onClick);
     console.log("creado!")
   }
