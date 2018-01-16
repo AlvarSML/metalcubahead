@@ -23,7 +23,6 @@ class Menu extends Phaser.State {
 
 class LoadScreen extends Phaser.State {
   preload() {
-     this.add.sprite(0,0,'screen'); 
 
     this.preloadbar =  this.add.sprite(300,500,'bar');
     this.load.setPreloadSprite(this.preloadbar);
